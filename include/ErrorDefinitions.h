@@ -1,0 +1,22 @@
+#pragma once
+//#include "CToken.h"
+
+#define GS_NO_ERROR 0
+#define GS_ERROR_UNDEFINED_ERROR 1
+#define GS_ERROR_UNDEFINED_OPERATOR 2
+#define GS_ERROR_UNDEFINED_DATA_TYPE 3
+#define GS_ERROR_UNDEFINED_VARIABLE 4
+#define GS_ERROR_OPERATION_NOT_DEFINED 5
+#define GS_ERROR_FILE_NOT_FOUND 6
+#define GS_ERROR_INVALID_VALUE 7
+#define GS_ERROR_REDEFINITION 8
+#define GS_ERROR_UNEXPECTED_TOKEN 9
+#define GS_ERROR_EXPECTED_SYMBOL 10
+#define GS_ERROR_EXPECTED_CLOSING_BRACKET 11
+#define GS_ERROR_INVALID_ARG_COUNT 12
+#define GS_ERROR_INVALID_DATA_TYPE 13
+#define GS_ERROR_NOT_COMPILED 14
+
+
+//char* GetErrorText(unsigned int err);
+//void OutputErrorMsg(unsigned int ErrorMsg, CToken token);

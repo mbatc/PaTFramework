@@ -1,0 +1,22 @@
+#pragma once
+#include "CToken.h"
+
+#define NO_ERROR 0
+#define ERROR_UNDEFINED_ERROR 1
+#define ERROR_UNDEFINED_OPERATOR 2
+#define ERROR_UNDEFINED_DATA_TYPE 3
+#define ERROR_UNDEFINED_VARIABLE 4
+#define ERROR_OPERATION_NOT_DEFINED 5
+#define ERROR_FILE_NOT_FOUND 6
+#define ERROR_INVALID_VALUE 7
+#define ERROR_REDEFINITION 8
+#define ERROR_UNEXPECTED_TOKEN 9
+#define ERROR_EXPECTED_SYMBOL 10
+#define ERROR_EXPECTED_CLOSING_BRACKET 11
+#define ERROR_INVALID_ARG_COUNT 12
+#define ERROR_INVALID_DATA_TYPE 13
+#define ERROR_NOT_COMPILED 14
+
+
+char* GetErrorText(unsigned int err);
+void OutputErrorMsg(unsigned int ErrorMsg, CToken token);
