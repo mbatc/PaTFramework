@@ -16,18 +16,25 @@ CApp* CAppWndProc::g_toothbrush = 0;
 CAppWndProc* CAppWndProc::_instance = 0;
 CAppBridge*	CAppBridge::_instance = 0;
 
+APPVERSION CApp::_app_build_ = APPVERSION();
+std::string CApp::_app_build_str;
+std::string CApp::_app_name_ = "PaTFramework Application";
+
 CApp::CApp(APPVERSION ver)
 	:
 	_exit_flag(false)
 {
 	char temp[48];
 	sprintf(temp, "v(%d.%d.%d)", ver.major, ver.minor, ver.patch);
-	_build_ = ver;
-	_build_str = temp;
+	_PaTframework_build_ = ver;
+	_PaTframework_build_str = temp;
+
+	sprintf(temp, "v(%d.%d.%d)", _app_build_.major, _app_build_.minor, _app_build_.patch);
+	_app_build_str = temp;
 	
 	init_log();
 	//Set the build version string
-	Log(this, DEBUGLOG_LEVEL_INFO, "CApp instance(ptr=%p, %s) created", this, _build_str.c_str());
+	Log(this, DEBUGLOG_LEVEL_INFO, "CApp instance(ptr=%p, %s) created", this, _PaTframework_build_str.c_str());
 }
 
 CApp::~CApp()
@@ -84,7 +91,8 @@ unsigned int CApp::shutdown()
 void CApp::do_startup_log(int argc, char** argv)
 {
 	//Setup the application and output some information to the console for debugging purposes
-	_LOG.Log(this, DEBUGLOG_LEVEL_INFO, "Project Aberrant Toothbrush v(%d.%d.%d)", _build_.major, _build_.minor, _build_.patch);
+	_LOG.Log(this, DEBUGLOG_LEVEL_INFO, "PaTFramework v(%d.%d.%d)", _PaTframework_build_.major, _PaTframework_build_.minor, _PaTframework_build_.patch);
+	_LOG.Log(this, DEBUGLOG_LEVEL_INFO, "%s v(%d.%d.%d)", _app_name_.c_str() ,_app_build_.major, _app_build_.minor, _app_build_.patch);
 	_LOG.Log(this, DEBUGLOG_LEVEL_INFO, "argc: %d", argc);
 	for (int i = 0; i < argc; i++)
 	{
@@ -199,7 +207,7 @@ unsigned int CApp::init_game()
 
 void CApp::init_log()
 {
-	std::string logfile(std::string("Log\\log-") + _build_str + std::string(".txt"));
+	std::string logfile(std::string("Log\\log-") + _app_build_str + std::string(".txt"));
 
 	_LOG.CMDLog(true);
 	_LOG.SetLogLevel(DEBUGLOG_LEVEL_ALL);

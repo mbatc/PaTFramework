@@ -74,10 +74,10 @@ unsigned int CGameObject::update()
 
 		m_global_transform.get_scale() *= parent_trans.get_scale();
 
-		m_global_transform.get_translation() = Lerp(npos,
+		m_global_transform.get_translation() = Transform_lerp(npos,
 			m_prev_global_transform.get_translation(),m_lerp_factor);
 
-		m_global_transform.get_rotation() = Lerp(m_global_transform.get_rotation() + parent_trans.get_rotation(),
+		m_global_transform.get_rotation() = Transform_lerp(m_global_transform.get_rotation() + parent_trans.get_rotation(),
 			m_prev_global_transform.get_rotation(),m_lerp_factor);
 	}
 

@@ -75,7 +75,7 @@ public:
 	{
 		if (!_instance)
 		{
-			_instance = new CApp(APPVERSION(0, 0, 5));
+			_instance = new CApp(APPVERSION(0, 1, 1));
 			Log(NULL, DEBUGLOG_LEVEL_INFO, "CApp instance created (ptr=%p)", _instance);
 		}
 		return _instance;
@@ -88,8 +88,12 @@ public:
 	}
 	//--------------------------------------------------
 
+
 	//Must be derived from CAppHookBase
 	template <class T>unsigned int set_apphooktype();
+
+	static void set_app_version(APPVERSION v) { _app_build_ = v; }
+	static void set_app_name(std::string name = "PaTFramework Application") { _app_name_ = name; }
 
 	unsigned int startup(int argc, char** argv, HINSTANCE hInstance);
 	unsigned int run();
@@ -137,10 +141,14 @@ private:
 	//Resources
 
 	//Versioning
-	APPVERSION		_build_;
-	std::string		_build_str;
-	bool _exit_flag;
+	static APPVERSION	_app_build_;
+	static std::string	_app_build_str;
+	static std::string	_app_name_;
 
+	APPVERSION		_PaTframework_build_;
+	std::string		_PaTframework_build_str;
+
+	bool _exit_flag;
 	CAppHookBase* m_app_hook;
 };
 

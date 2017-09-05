@@ -34,57 +34,42 @@
     <Filter Include="Header Files\interpreter">
       <UniqueIdentifier>{4dd1e468-1eff-447c-b7f1-0af5587e3917}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game\collision">
+      <UniqueIdentifier>{a511d44f-d0b6-4cf9-ab6d-59315313749f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\app">
+      <UniqueIdentifier>{371378d6-4f40-4f78-b478-07585ce6b24a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{5a4c54da-d7f1-4896-a654-388b66aa9d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{9807d89d-dd6e-47e9-b64d-11aa45c3b91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpreter">
+      <UniqueIdentifier>{7b173299-7bd5-4ec3-80c4-c4a0f5dd3fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{1098142d-00bb-4943-9993-1a297280546d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\collision\Colliders">
+      <UniqueIdentifier>{710a3fef-dd45-44c5-bb16-26eb0f060f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\collision\Physics">
+      <UniqueIdentifier>{6209964f-54ea-49e7-be8f-0938e7baed49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{d657cd78-21c8-4490-a59b-8afa3c45f40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{8dc7853b-4f80-4580-92e4-5cd7e3128aee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\CSystemSpriteRenderPipeline.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CTextRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\CTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\CVector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CVector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CVector4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\MathTransform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\CComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\CGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\CGameCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\CGameLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\CGameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\CGameScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\components\CComponentFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\helpers\CErrorBase.cpp">
@@ -108,40 +93,13 @@
     <ClCompile Include="source\input\CTouchInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\interpreter\CCharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\interpreter\CDebugLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\interpreter\CToken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\interpreter\ErrorHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\interpreter\LanguageDefinitionHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\interpreter\OperatorFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\interpreter\String.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CCollider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CD3DGraphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\CDirectoryFileList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CDXMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\CFileContainer.cpp">
@@ -159,46 +117,13 @@
     <ClCompile Include="source\CImporterBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\CInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CIO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CLine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\CLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CMeshData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CMeshImporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\COutput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\CResourceBank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\CScriptCOMObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CScriptCOMRegistry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CShaderNEW.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\CStringIDList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ui\CUICheckBox.cpp">
@@ -228,27 +153,117 @@
     <ClCompile Include="source\ui\CUITextIO.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
+    <ClCompile Include="source\CApp.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpreter\CCharacter.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\CComponent.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\components\CComponentFactory.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CD3DGraphics.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\CGame.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\CGameCamera.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\CGameLight.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\CGameObject.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\CGameScene.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CInput.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CIO.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\COutput.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CMeshImporter.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CMeshData.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CDXMesh.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CShaderNEW.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CSprite.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CSurface.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CTexture.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CTextRenderer.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CSystemSpriteRenderPipeline.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpreter\CToken.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CScriptCOMRegistry.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CScriptCOMObject.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpreter\OperatorFunctions.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpreter\String.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpreter\LanguageDefinitionHelper.cpp">
+      <Filter>Source Files\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CWindow.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\collision\CColliderBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CVector2.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CVector3.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CVector4.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MathTransform.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\collision\CColliderAABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\CTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\CVector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\CVector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\CVector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\MathTransform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\CTransform.h">
@@ -291,9 +306,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\CImporterBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\CLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\CLog.h">
@@ -351,9 +363,6 @@
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="source\game\CComponent.h">
-      <Filter>Header Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="source\CCollider.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="source\CD3DGraphics.h">
@@ -451,6 +460,42 @@
     </ClInclude>
     <ClInclude Include="source\CSystemSpriteRenderPipeline.h">
       <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CCollisionEngine.h">
+      <Filter>Header Files\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CPhysicsBody.h">
+      <Filter>Header Files\game\collision\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CPhysicsEngine.h">
+      <Filter>Header Files\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CColliderBase.h">
+      <Filter>Header Files\game\collision\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CColliderAABB.h">
+      <Filter>Header Files\game\collision\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CLine.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CVector2.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CVector3.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CVector4.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Vectors.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\MathTransform.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\C3DPlane.h">
+      <Filter>Header Files\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

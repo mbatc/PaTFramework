@@ -10,6 +10,9 @@ public:
 	float x,y,z;
 
 	float Magnitude();
+	float dot(CVector3 v) {
+		return x*v.x + y*v.y + z*v.z;
+	}
 
 	CVector3 operator +  (CVector3 in)
 	{

@@ -120,7 +120,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\CApp.cpp" />
-    <ClCompile Include="source\CCollider.cpp" />
     <ClCompile Include="source\CD3DGraphics.cpp" />
     <ClCompile Include="source\CDirectoryFileList.cpp" />
     <ClCompile Include="source\CDXMesh.cpp" />
@@ -131,7 +130,6 @@
     <ClCompile Include="source\CImporterBase.cpp" />
     <ClCompile Include="source\CInput.cpp" />
     <ClCompile Include="source\CIO.cpp" />
-    <ClCompile Include="source\CLine.cpp" />
     <ClCompile Include="source\CLog.cpp" />
     <ClCompile Include="source\CMeshData.cpp" />
     <ClCompile Include="source\CMeshImporter.cpp" />
@@ -158,6 +156,8 @@
     <ClCompile Include="source\game\CGameLight.cpp" />
     <ClCompile Include="source\game\CGameObject.cpp" />
     <ClCompile Include="source\game\CGameScene.cpp" />
+    <ClCompile Include="source\game\collision\CColliderAABB.cpp" />
+    <ClCompile Include="source\game\collision\CColliderBase.cpp" />
     <ClCompile Include="source\game\components\CComponentFactory.cpp" />
     <ClCompile Include="source\helpers\CErrorBase.cpp" />
     <ClCompile Include="source\helpers\FileHelper.cpp" />
@@ -187,7 +187,6 @@
   <ItemGroup>
     <ClInclude Include="source\CApp.h" />
     <ClInclude Include="source\CAppErrDef.h" />
-    <ClInclude Include="source\CCollider.h" />
     <ClInclude Include="source\CD3DGraphics.h" />
     <ClInclude Include="source\CDirectoryFileList.h" />
     <ClInclude Include="source\CDXMesh.h" />
@@ -203,6 +202,7 @@
     <ClInclude Include="source\CMeshData.h" />
     <ClInclude Include="source\CMeshImporter.h" />
     <ClInclude Include="source\COutput.h" />
+    <ClInclude Include="source\C3DPlane.h" />
     <ClInclude Include="source\CResourceBank.h" />
     <ClInclude Include="source\CResourceList.h" />
     <ClInclude Include="source\CScriptCOMObject.h" />
@@ -227,6 +227,11 @@
     <ClInclude Include="source\game\CGameLight.h" />
     <ClInclude Include="source\game\CGameObject.h" />
     <ClInclude Include="source\game\CGameScene.h" />
+    <ClInclude Include="source\game\collision\CColliderAABB.h" />
+    <ClInclude Include="source\game\collision\CColliderBase.h" />
+    <ClInclude Include="source\game\collision\CCollisionEngine.h" />
+    <ClInclude Include="source\game\collision\CPhysicsBody.h" />
+    <ClInclude Include="source\game\collision\CPhysicsEngine.h" />
     <ClInclude Include="source\game\components\CComponentFactory.h" />
     <ClInclude Include="source\game\CTransform.h" />
     <ClInclude Include="source\helpers\CErrorBase.h" />
