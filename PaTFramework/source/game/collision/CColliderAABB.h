@@ -13,9 +13,14 @@ public:
 
 	unsigned int	check_collision(CColliderBase* collider) override;
 	C3DPlane		get_closestside(CVector3 to) override;
+
+	CVector3 get_boundmin() { return m_min; }
+	CVector3 get_boundmax() { return m_max; }
 private:
-	CVector3 min;
-	CVector3 max;
+	void update_sides();
+
+	CVector3 m_min;
+	CVector3 m_max;
 
 	C3DPlane sides[8];
 };

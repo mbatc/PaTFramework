@@ -99,6 +99,17 @@ bool Line_getIntercept(CVector3 & i, CLine3D l, C3DPlane p)
 	return true;
 }
 
+float Plane_getDistanceFromPoint(C3DPlane plane, CVector3 point)
+{
+	CLine3D line(point, point+plane.get_normal());
+	CVector3 intercept;
+	if (!Line_getIntercept(intercept, line, plane))
+		return -1.0f;
+
+	point = intercept - point;
+	return point.Magnitude();
+}
+
 CVector3 Transform_lerp(CVector3 to, CVector3 from, float factor)
 {
 	return from + CVector3(to-from)*factor;

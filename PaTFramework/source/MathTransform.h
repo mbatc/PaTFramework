@@ -25,6 +25,8 @@ bool Line_getIntercept(CVector2& i, CLine2D a, CLine2D b);
 bool Line_getIntercept(CVector3& i, CLine3D a, CLine3D b);
 bool Line_getIntercept(CVector3& i, CLine3D l, C3DPlane p);
 
+float Plane_getDistanceFromPoint(C3DPlane plane,CVector3 point);
+
 bool Collision_AABBCheck(CVector3 min, CVector3 max, CVector3 point);
 bool Collision_AABBCheck(CVector3 min_1, CVector3 max_1, CVector3 min_2, CVector3 max_2);
 

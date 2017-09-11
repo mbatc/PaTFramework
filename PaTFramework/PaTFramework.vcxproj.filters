@@ -64,6 +64,12 @@
     <Filter Include="Source Files\math">
       <UniqueIdentifier>{8dc7853b-4f80-4580-92e4-5cd7e3128aee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\game\collision">
+      <UniqueIdentifier>{77d65b59-b48b-497f-85ba-c12a3d487b68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\collision\colliders">
+      <UniqueIdentifier>{66776737-be91-482f-b341-43e86eae56c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CTimer.cpp">
@@ -240,9 +246,6 @@
     <ClCompile Include="source\CWindow.cpp">
       <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\collision\CColliderBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\CVector2.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
@@ -255,8 +258,17 @@
     <ClCompile Include="source\MathTransform.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\collision\CCollisionEngine.cpp">
+      <Filter>Source Files\game\collision</Filter>
+    </ClCompile>
     <ClCompile Include="source\game\collision\CColliderAABB.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game\collision\colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\collision\CColliderBase.cpp">
+      <Filter>Source Files\game\collision\colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\collision\CColliderSphere.cpp">
+      <Filter>Source Files\game\collision\colliders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -496,6 +508,9 @@
     </ClInclude>
     <ClInclude Include="source\C3DPlane.h">
       <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CColliderSphere.h">
+      <Filter>Header Files\game\collision\Colliders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

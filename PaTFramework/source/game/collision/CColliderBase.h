@@ -25,6 +25,7 @@ public:
 
 class CColliderBase 
 {
+	friend CCollisionEngine;
 public:
 	CColliderBase();
 	~CColliderBase();
@@ -42,11 +43,11 @@ public:
 	virtual C3DPlane			get_closestside(CVector3 to);
 
 	unsigned int				get_collisioncount();
+	unsigned int				add_collision(CColliderBase* b);
 protected:
 	//Get ur closest side to the colliding object as well as theres to you and find intercept along collision path
 	CVector3					get_collision_point(CColliderBase* b);
 	std::vector<CCollisionData>	m_data;
-
 private:
 
 	CTransform m_transform;
@@ -68,6 +69,6 @@ public:
 
 
 private:
-	int& collider_id() override { return _derived_id; }
+	static int& collider_id() { return _derived_id; }
 	static int _derived_id;
 };

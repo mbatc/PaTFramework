@@ -71,4 +71,14 @@ public:
 
 		return *this;
 	}
+
+	CVector3 operator / (float in)
+	{
+		CVector3 out;
+		out.x = this->x / in;
+		out.y = this->y / in;
+		out.z = this->z / in;
+
+		return out;
+	}
 };

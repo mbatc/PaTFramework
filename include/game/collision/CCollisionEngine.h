@@ -2,12 +2,21 @@
 
 #include "../../CLog.h"
 
+#include "CColliderBase.h"
+
+#define CREATE_COLLIDER(type) CCollisionEngine::get_instance()->create_collider<type>(collider)
+#define DESTROY_COLLIDER(collider) CCollisionEngine::get_instance()->unregister_collider(collider)
+
 class CCollisionEngine
 {
 private:
 	CCollisionEngine();
 	CCollisionEngine* _instance;
 
+	struct ColliderListItem {
+		CColliderBase*	_collider;
+		unsigned int	_id;
+	};
 public:
 	CCollisionEngine* get_instance() {
 		if (!_instance)
@@ -33,6 +42,24 @@ public:
 
 	unsigned int update();
 
-private:
+	template <class T> static bool is_type(CColliderBase* b) {
+		return (T::collider_id() == b->collider_id());
+	}
+	
+	template <class T> CColliderBase* create_collider() {
+		int i = register_collider(new T);
+		return m_collider[i];
+	}
 
+	void destroy_collider(CColliderBase* col);
+	void destroy_collider(int id);
+private:
+	unsigned int check_collision(CColliderBase* col, CColliderBase* col2);
+
+	unsigned int register_collider(CColliderBase* collider);
+	unsigned int unregister_collider(int id);
+
+	unsigned int get_uniqueid();
+
+	std::vector<ColliderListItem> m_collider;
 };
