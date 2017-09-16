@@ -33,6 +33,14 @@ public:
 		}
 		return _instance;
 	}
+	static void destroy_instance() {
+		if (_instance)
+		{
+			Log(NULL, DEBUGLOG_LEVEL_INFO, "CImporter instance destroyed (ptr=%p)", _instance);
+			delete _instance;
+		}
+		_instance = 0;
+	}
 
 	unsigned int import(std::string file);
 	

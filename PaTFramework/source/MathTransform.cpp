@@ -133,7 +133,7 @@ bool Collision_AABBCheck(CVector3 min_1, CVector3 max_1, CVector3 min_2, CVector
 				min_1.y < max_2.y &&
 				min_2.y < max_1.y && 
 				min_1.z < max_2.z &&
-				min_2.z < max_2.z );
+				min_2.z < max_1.z );
 }
 
 bool Collision_SphereAABBCheck(CVector3 center, float radius, CVector3 _min, CVector3 _max)

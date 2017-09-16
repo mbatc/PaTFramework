@@ -159,6 +159,58 @@ unsigned int _CShader::SetInputLayout(D3D11_INPUT_ELEMENT_DESC* dsc, int nElemen
 
 	return 0;
 }
+bool _CShader::update_constant_buffer(int buffer_id, void * data)
+{
+	ID3D11Buffer* buffer = nullptr;
+	int data_size = 0;
+	for (int i = 0; i < m_pConstBuffer.size(); i++)
+	{
+		if (m_pConstBuffer[i]->_id == buffer_id)
+		{
+			buffer = m_pConstBuffer[i]->_d3dbuffer;
+			data_size = m_pConstBuffer[i]->_size;
+		}
+	}
+
+	if (!buffer)
+	{
+		Log(this, DEBUGLOG_LEVEL_WARNING, "No shader constant buffer with id: %d exists", buffer_id);
+		return false;
+	}
+
+	D3D11_MAPPED_SUBRESOURCE resData;
+	m_pDX->Context()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resData);
+	memcpy(resData.pData, data, data_size);
+	m_pDX->Context()->Unmap(buffer, 0);
+
+	return true;
+}
+
+int _CShader::add_constant_buffer(char shader_type, int index, ID3D11Buffer * buffer,int size)
+{
+	ConstantBuffer* cbuf = new ConstantBuffer;
+	cbuf->_d3dbuffer = buffer;
+	cbuf->_id = get_constbuffer_uniqueid();
+	cbuf->_shader_index = index;
+	cbuf->_shader_type = shader_type;
+	cbuf->_size = size;
+
+	m_pConstBuffer.push_back(cbuf);
+
+	return cbuf->_id;
+}
+
+int _CShader::get_constbuffer_uniqueid()
+{
+	int id = rand()*MAXINT;
+	for (int i = 0; i < m_pConstBuffer.size(); i++)
+	{
+		if (m_pConstBuffer[i]->_id == id)
+			return get_constbuffer_uniqueid();
+	}
+	return id;
+}
+
 void _CShader::PassInputStruct(FILE * f)
 {
 	if (!f)
@@ -315,6 +367,30 @@ void _CShader::SetGFXShader()
 	m_pDX->SetBlendState((unsigned int)m_nBlendState);
 	m_pDX->SetDepthState((unsigned int)m_nDepthState);
 	m_pDX->SetRasterState((unsigned int)m_nRasterState);
+
+	for (int i = 0; i < m_pConstBuffer.size(); i++)
+	{
+		if (!m_pConstBuffer[i])
+			continue;
+		switch (m_pConstBuffer[i]->_shader_type)
+		{
+		case 'p':
+			m_pDX->Context()->PSSetConstantBuffers(m_pConstBuffer[i]->_shader_index, 1, &m_pConstBuffer[i]->_d3dbuffer);
+			break;
+		case 'v':
+			m_pDX->Context()->VSSetConstantBuffers(m_pConstBuffer[i]->_shader_index, 1, &m_pConstBuffer[i]->_d3dbuffer);
+			break;
+		case 'h':
+			m_pDX->Context()->HSSetConstantBuffers(m_pConstBuffer[i]->_shader_index, 1, &m_pConstBuffer[i]->_d3dbuffer);
+			break;
+		case 'd':
+			m_pDX->Context()->DSSetConstantBuffers(m_pConstBuffer[i]->_shader_index, 1, &m_pConstBuffer[i]->_d3dbuffer);
+			break;
+		case 'g':
+			m_pDX->Context()->GSSetConstantBuffers(m_pConstBuffer[i]->_shader_index, 1, &m_pConstBuffer[i]->_d3dbuffer);
+			break;
+		};
+	}
 }
 
 void _CShader::SetShaderName(std::string name)

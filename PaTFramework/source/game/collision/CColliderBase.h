@@ -14,7 +14,9 @@ class CColliderBase;
 class CCollisionData
 {
 public:
-	CCollisionData();
+	CCollisionData() {
+		memset(this, 0, sizeof(CCollisionData));
+	}
 
 	CVector3		m_collision_point;
 	CVector3		m_velocity;
@@ -38,17 +40,21 @@ public:
 
 	CCollisionData				get_collisiondata(int index);
 	//Get center point of the collider
-	CTransform					get_transform();
+	CTransform&					get_transform();
 	//Get side closest to this point (use angles/trig) - function will be defined separately for different collider types
 	virtual C3DPlane			get_closestside(CVector3 to);
 
 	unsigned int				get_collisioncount();
 	unsigned int				add_collision(CColliderBase* b);
+
+	std::string					get_groupname() { return m_group_name; }
 protected:
 	//Get ur closest side to the colliding object as well as theres to you and find intercept along collision path
 	CVector3					get_collision_point(CColliderBase* b);
 	std::vector<CCollisionData>	m_data;
 private:
+
+	std::string m_group_name;
 
 	CTransform m_transform;
 	CTransform m_prev_transform;
@@ -69,6 +75,6 @@ public:
 
 
 private:
-	static int& collider_id() { return _derived_id; }
+	int& collider_id() override { return _derived_id; }
 	static int _derived_id;
 };

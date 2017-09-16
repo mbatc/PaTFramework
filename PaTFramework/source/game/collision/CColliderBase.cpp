@@ -1,5 +1,7 @@
 #include "CColliderBase.h"
 
+int CColliderBase::_base_id;
+
 CColliderBase::CColliderBase()
 {
 }
@@ -22,7 +24,7 @@ CCollisionData CColliderBase::get_collisiondata(int index)
 	return m_data[index];
 }
 
-CTransform CColliderBase::get_transform()
+CTransform& CColliderBase::get_transform()
 {
 	return m_transform;
 }

@@ -79,6 +79,17 @@ public:
 		D3DXMATRIX o;
 	};
 
+	struct ConstantBuffer
+	{
+		int _id;
+		int _shader_index;
+		char _shader_type;
+		int _size;
+
+		
+		ID3D11Buffer* _d3dbuffer;
+	};
+
 public:
 	_CShader(std::string name, std::string psFile, std::string vsFile, std::string gsFile = "", std::string hsFile = "", std::string dsFile = "");
 	~_CShader();
@@ -168,7 +179,19 @@ public:
 
 	void set_depthstate(bool b) { set_depthstate((int)b); }
 	void set_blendstate(bool b) { set_blendstate((int)b); }
+
+	//returns the new buffers ID and -1 if it could not be created
+	//each shader type is represented with a letter, pixel: 'p', vertex: 'v' and so on...
+	//index is the constant buffer index within the shader - it will be used when updating the shader data
+	//template T is the type information for the constant buffer
+	template <class T> int create_constant_buffer(char shader_type, int shader_index,void* initial_data = nullptr);
+
+	//Returns true of success and false on failure
+	bool update_constant_buffer(int buffer_id, void* data);
 private:
+	int add_constant_buffer(char shader_type, int index, ID3D11Buffer* buffer, int size);
+	int get_constbuffer_uniqueid();
+
 	void PassInputStruct(FILE * f);
 
 	void InitDefaultSampleState();
@@ -204,6 +227,8 @@ private:
 	ID3D11InputLayout*		m_pILayout;
 	ID3D11Buffer*			m_pMatrix;
 
+	std::vector<ConstantBuffer*> m_pConstBuffer;
+
 	D3D11_INPUT_ELEMENT_DESC*	m_pIDesc;
 	int							m_nInputElements;
 
@@ -221,3 +246,27 @@ private:
 	//Used to identify individual shaders
 	std::string				m_shader_name;
 };
+
+template<class T>
+inline int _CShader::create_constant_buffer(char shader_type, int shader_index, void * initial_data)
+{
+	D3D11_BUFFER_DESC desc;
+	desc.ByteWidth = sizeof(T);
+	desc.Usage = D3D11_USAGE_DYNAMIC;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	desc.MiscFlags = 0;
+	desc.StructureByteStride = 0;
+	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA data;
+	data.pSysMem = initial_data;
+	data.SysMemPitch = 0;
+	data.SysMemSlicePitch = 0;
+
+	ID3D11Buffer* buffer = 0;
+	HRESULT hr = m_pDX->Device()->CreateBuffer(&desc, &data, &buffer);
+	if (FAILED(hr))
+		return -1;
+
+	return add_constant_buffer(shader_type,shader_index,buffer,desc.ByteWidth);
+}

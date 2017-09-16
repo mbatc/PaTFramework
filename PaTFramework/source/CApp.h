@@ -75,7 +75,7 @@ public:
 	{
 		if (!_instance)
 		{
-			_instance = new CApp(APPVERSION(0, 1, 1));
+			_instance = new CApp(APPVERSION(0, 1, 3));
 			Log(NULL, DEBUGLOG_LEVEL_INFO, "CApp instance created (ptr=%p)", _instance);
 		}
 		return _instance;

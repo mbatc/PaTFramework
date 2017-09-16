@@ -398,6 +398,19 @@ unsigned int CD3DGraphics::AddShader(_CShader * pShader)
 	return 0;
 }
 
+_CShader * CD3DGraphics::GetShader(std::string name)
+{
+	for (int i = 0; i < m_ppGFXShader.size(); i++)
+	{
+		if (m_ppGFXShader[i]->GetName() == name)
+		{
+			return m_ppGFXShader[i];
+		}
+	}
+
+	return nullptr;
+}
+
 void CD3DGraphics::SetActiveShader(_CShader * pShader)
 {
 	if (pShader == m_pActiveShader)

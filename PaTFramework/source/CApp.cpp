@@ -8,6 +8,9 @@
 #include "CImporter.h"
 
 #include "CResourceBank.h"
+#include "game\collision\CCollisionEngine.h"
+#include "game\components\CComponentFactory.h"
+#include "helpers\CErrorBase.h"
 
 using namespace std;
 
@@ -84,6 +87,12 @@ unsigned int CApp::shutdown()
 {
 	CResourceBank::get_instance()->shutdown();
 	CResourceBank::destroy();
+	CImporter::destroy_instance();
+	CCollisionEngine::destroy_instance();
+	CError::destroy_instance();
+	CComponentFactory::destroy_instance();
+
+
 
 	return GETLASTERROR();
 }
@@ -310,4 +319,5 @@ LRESULT CAppWndProc::AppWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
+	return DefWindowProc(hWnd, msg, wParam, lParam);
 }

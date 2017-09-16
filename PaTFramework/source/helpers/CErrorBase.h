@@ -34,7 +34,7 @@ public:
 		return _instance;
 	}
 
-	static CError* destroy_instance() {
+	static void destroy_instance() {
 		if (_instance)
 			delete _instance;
 

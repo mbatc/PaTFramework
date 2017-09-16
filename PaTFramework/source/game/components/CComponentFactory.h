@@ -32,6 +32,14 @@ public:
 		}
 		return _instance;
 	}
+	static void destroy_instance() {
+		if (_instance)
+		{
+			Log(NULL, DEBUGLOG_LEVEL_INFO, "CComponentFactory instance destroyed (ptr=%p)", _instance);
+			delete _instance;
+		}
+		_instance = 0;
+	}
 	
 	static const char*	get_component_typename(CComponent* comp);
 	static const int	get_component_typeid(CComponent* comp);
@@ -59,12 +67,19 @@ private:
 template<class T> inline const char * CComponentFactory::get_component_typename()
 {
 	CComponentFactory* cfactory = get_instance();
-	return cfactory->m_createfunc_id.get_str(T::comp_id());
+	T* temp = new T();
+	int id = temp->comp_id();
+	delete temp;
+
+	return cfactory->m_createfunc_id.get_str(id);
 }
 
 template<class T> inline const int CComponentFactory::get_component_typeid()
 {
-	return T::comp_id();
+	T* temp = new T(nullptr);
+	int id = temp->comp_id();
+	delete temp;
+	return id;
 }
 
 template<class T>
@@ -73,7 +88,11 @@ inline const bool CComponentFactory::is_type(CComponent * comp)
 	if (!comp)
 		return false;
 
-	return (T::comp_id == comp->comp_id());
+	T* temp = new T();
+	bool check = (temp->comp_id() == comp->comp_id());
+	delete temp;
+
+	return check;
 }
 
 template<class T>

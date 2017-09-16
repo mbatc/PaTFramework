@@ -2,6 +2,7 @@
 #include "../CResourceBank.h"
 
 #include "components\CComponentFactory.h"
+#include "collision\CCollisionEngine.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -30,6 +31,10 @@ void CGame::startup()
 
 void CGame::do_update()
 {
+	//Do Collision detection
+	CCollisionEngine::get_instance()->update();
+
+	//Update all objects
 	if (m_pScene)
 	{
 		if ((_last_error = m_pScene->update()) != 0)

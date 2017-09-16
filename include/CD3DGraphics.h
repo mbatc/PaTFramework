@@ -137,6 +137,8 @@ public:
 	//rendering
 	unsigned int AddShader(_CShader* pShader);
 
+	_CShader* GetShader(std::string name);
+
 	//Set the shader used when calling RenderShader() function
 	void SetActiveShader(_CShader* pShader);
 

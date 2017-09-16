@@ -2,6 +2,8 @@
 #include "CColliderSphere.h"
 #include "CCollisionEngine.h"
 
+int CColliderSphere::_derived_id;
+
 CColliderSphere::CColliderSphere()
 {
 

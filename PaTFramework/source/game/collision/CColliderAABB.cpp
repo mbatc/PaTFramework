@@ -1,6 +1,8 @@
 #include "CColliderAABB.h"
 #include "CCollisionEngine.h"
 
+int CColliderAABB::_derived_id;
+
 CColliderAABB::CColliderAABB() : CColliderBase_inherit(){
 
 }
