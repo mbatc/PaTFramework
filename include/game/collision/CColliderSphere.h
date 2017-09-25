@@ -10,7 +10,6 @@ public:
 
 	void set_radius(float r) { m_radius = r; }
 	float get_radius() { return m_radius; }
-	unsigned int	check_collision(CColliderBase* collider) override;
 	C3DPlane		get_closestside(CVector3 to) override;
 private:
 	float m_radius;

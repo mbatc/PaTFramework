@@ -48,6 +48,16 @@ unsigned int CCollisionEngine::update()
 		}
 	}
 
+	//Set previous transform -> used by collider for velocity calculations (can also be used when handling collisions)
+	for (int i = 0; i < m_group.size(); i++)
+	{
+		for (int j = 0; j < m_group[i]._list.size(); j++)
+		{
+			m_group[i]._list[j]._collider->collision();
+			m_group[i]._list[j]._collider->m_prev_transform = m_group[i]._list[j]._collider->m_transform;
+		}
+	}
+
 	RET_ERR(result);
 }
 
@@ -128,8 +138,13 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 
 	if (bCollision)
 	{
-		col->add_collision(col2);
-		col2->add_collision(col);
+		CCollisionData data = col->calculate_collision(col2);
+		col->add_collision(data);
+
+		//Invert the data as the collision information is the same, just the colliders are switched around
+		//This is done so that the same calculations aren't done twice
+		data.switch_colliderinfo(col);
+		col2->add_collision(data);
 	}
 	return 0;
 }
@@ -146,6 +161,7 @@ unsigned int CCollisionEngine::register_collider(CColliderBase * collider, std::
 	}
 
 	ColliderListItem li;
+	collider->m_group_name = name;
 	li._collider = collider;
 	li._id = get_uniqueid();
 
@@ -223,7 +239,7 @@ unsigned int CCollisionEngine::get_uniqueid()
 	{
 		for (int j = 0; j < m_group[i]._list.size(); j++)
 		{
-			if (id == m_group[i]._list[i]._id)
+			if (id == m_group[i]._list[j]._id)
 				return get_uniqueid();
 		}
 	}

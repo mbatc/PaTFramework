@@ -109,6 +109,24 @@ unsigned int CGameObject::startup()
 	return _last_error;
 }
 
+unsigned int CGameObject::collision(CColliderBase * collider, std::vector<CCollisionData> collisions)
+{
+	int result = 0;
+	for (int i = 0; i < m_component.size(); i++)
+	{
+		if (m_component[i]->handle_collisions())
+		{
+			for (int j = 0; j < collisions.size(); j++)
+			{
+				if(m_component[i]->handle_collisions(collisions[j].pWith))
+					result = m_component[i]->collision(collider, collisions[j], collisions[j].pWith->get_groupname());
+			}
+		}
+	}
+
+	return result;
+}
+
 unsigned int CGameObject::add_component(CComponent * comp)
 {
 	if (!comp)

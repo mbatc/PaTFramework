@@ -55,9 +55,6 @@
     <Filter Include="Header Files\game\collision\Colliders">
       <UniqueIdentifier>{710a3fef-dd45-44c5-bb16-26eb0f060f8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\game\collision\Physics">
-      <UniqueIdentifier>{6209964f-54ea-49e7-be8f-0938e7baed49}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\math">
       <UniqueIdentifier>{d657cd78-21c8-4490-a59b-8afa3c45f40a}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Source Files\game\collision\colliders">
       <UniqueIdentifier>{66776737-be91-482f-b341-43e86eae56c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\collision\Colliders\Physics">
+      <UniqueIdentifier>{6209964f-54ea-49e7-be8f-0938e7baed49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="source\game\collision\CColliderSphere.cpp">
       <Filter>Source Files\game\collision\colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\C3DPlane.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -477,7 +480,7 @@
       <Filter>Header Files\game\collision</Filter>
     </ClInclude>
     <ClInclude Include="source\game\collision\CPhysicsBody.h">
-      <Filter>Header Files\game\collision\Physics</Filter>
+      <Filter>Header Files\game\collision\Colliders\Physics</Filter>
     </ClInclude>
     <ClInclude Include="source\game\collision\CPhysicsEngine.h">
       <Filter>Header Files\game\collision</Filter>

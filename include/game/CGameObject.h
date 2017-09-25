@@ -4,6 +4,8 @@
 #include "CComponent.h"
 #include "../CD3DGraphics.h"
 
+#include "collision\CColliderBase.h"
+
 #include <vector>
 #include <string>
 
@@ -22,6 +24,7 @@ public:
 	virtual unsigned int update();
 	virtual unsigned int render(CD3DGraphics& gfx);
 	virtual unsigned int startup();
+	virtual unsigned int collision(CColliderBase* collider, std::vector<CCollisionData> collisions);
 
 	void set_name(std::string name) { m_name = name; }
 

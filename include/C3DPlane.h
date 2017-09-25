@@ -9,6 +9,10 @@
 #define PLANE_POINT_3 2
 #define PLANE_POINT_4 3
 
+#define PLANE_POINT_X 0
+#define PLANE_POINT_Y 1
+#define PLANE_POINT_Z 2
+
 #define PLANE_MAX_POINTS 4
 
 class C3DPlane
@@ -40,6 +44,7 @@ public:
 	void		set_normal(CVector3 norm) { m_normal = norm; }
 	CVector3	get_normal() { return m_normal; }
 	CVector3	get_point(int index) { if (!valid_index(index))return CVector3(); return m_point[index]; }
+	CVector3	get_point(unsigned int calculated_point, CVector3 known_points);
 	
 	//returns vector containing coefficients of the planes scalar equation
 	CVector4	get_scalar() { return m_scalar_values; }
@@ -56,12 +61,13 @@ public:
 			m_normal.z = (v1.x * v2.y) - (v1.y*v2.x);
 		}
 
+		m_normal = m_normal / m_normal.Magnitude();
 		//calculate scalar values using normal in the form
 		// ax + by + zx = w
 		m_scalar_values.x = m_normal.x;
 		m_scalar_values.y = m_normal.y;
 		m_scalar_values.z = m_normal.z;
-		m_scalar_values.w = -(m_normal.x * m_point[0].x) + (m_normal.y*m_point[0].y) - (m_normal.z*m_point[0].z);
+		m_scalar_values.w = (m_normal.x * m_point[0].x) + (m_normal.y*m_point[0].y) + (m_normal.z*m_point[0].z);
 	}
 private:
 	bool valid_index(int index) {

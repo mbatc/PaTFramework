@@ -1,4 +1,5 @@
 #include "MathTransform.h"
+#include <float.h>
 
 V_RECT RotateRectangle(RECT r, CVector2 a, float rot)
 {
@@ -35,6 +36,11 @@ CVector3 Point_rotate(CVector3 p, CVector3 a, CVector3 rot)
 	return CVector3();
 }
 
+float Vector_angleBetween(CVector3 a, CVector3 b)
+{
+	return acos(a.dot(b)/(a.Magnitude()*b.Magnitude()));
+}
+
 bool Line_getIntercept(CVector2 & i, CLine2D a, CLine2D b)
 {
 	return false;
@@ -65,32 +71,32 @@ bool Line_getIntercept(CVector3 & i, CLine3D l, C3DPlane p)
 	//	v(t) = <line_coef.x*t + line_const.x, line_coef.y*t + line_const.y, line_coef.z*t + line_const.z>
 
 	//Plug these into scalar equation for each component
-	// scalar_coef.x(line_coef.x*t + line_const.x - scalar_const.x) +
-	// scalar_coef.y(line_coef.y*t + line_const.y - scalar_const.y) + 
-	// scalar_coef.z(line_coef.z*t + line_const.z - scalar_const.z) = scalar_coef.w 
+	// scalar_coef.x(line_coef.x*t + line_const.x) +
+	// scalar_coef.y(line_coef.y*t + line_const.y) + 
+	// scalar_coef.z(line_coef.z*t + line_const.z) = scalar_coef.w 
 	
 	//Solve for t - Rearranging
-	// scalar_coef.x*line_coef.x*t + line_const.x*scalar_coef.x - scalar_const.x*scalar_coef.x +
-	// scalar_coef.y*line_coef.y*t + line_const.y*scalar_coef.y - scalar_const.x*scalar_coef.y +
-	// scalar_coef.z*line_coef.z*t + line_const.z*scalar_coef.z - scalar_const.x*scalar_coef.z = scalar_coef.w
+	// scalar_coef.x*line_coef.x*t + line_const.x*scalar_coef.x +
+	// scalar_coef.y*line_coef.y*t + line_const.y*scalar_coef.y +
+	// scalar_coef.z*line_coef.z*t + line_const.z*scalar_coef.z = scalar_coef.w
 	
 	// (scalar_coef.x*line_coef.x + scalar_coef.y*line_coef.y + scalar_coef.z*line_coef.z)*t = 
-	//		scalar_coef.w - line_const.x*scalar_coef.x + scalar_const.x*scalar_coef.x 
-	//  				  - line_const.y*scalar_coef.y + scalar_const.x*scalar_coef.y 
-	//					  - line_const.z*scalar_coef.z + scalar_const.x*scalar_coef.z)
+	//		scalar_coef.w - line_const.x*scalar_coef.x
+	//  				  - line_const.y*scalar_coef.y 
+	//					  - line_const.z*scalar_coef.z)
 
-	// (scalar_coef.w - line_const.x*scalar_coef.x + scalar_const.x*scalar_coef.x 
-	//  				  - line_const.y*scalar_coef.y + scalar_const.x*scalar_coef.y 
-	//					  - line_const.z*scalar_coef.z + scalar_const.x*scalar_coef.z) / 
+	// (scalar_coef.w	- line_const.x*scalar_coef.x 
+	//  				- line_const.y*scalar_coef.y 
+	//					- line_const.z*scalar_coef.z) / 
 	// (scalar_coef.x*line_coef.x + scalar_coef.y*line_coef.y + scalar_coef.z*line_coef.z) = t
 
 	//FINAL EQUATION for 't'
 	float t = 
 		(scalar_coef.w - 
 
-		line_const.x*scalar_coef.x + scalar_const.x*scalar_coef.x -
-		line_const.y*scalar_coef.y + scalar_const.x*scalar_coef.y -
-		line_const.z*scalar_coef.z + scalar_const.x*scalar_coef.z ) 
+		line_const.x*scalar_coef.x -
+		line_const.y*scalar_coef.y -
+		line_const.z*scalar_coef.z ) 
 		/
 		(scalar_coef.x*line_coef.x + scalar_coef.y*line_coef.y + scalar_coef.z*line_coef.z);
 
@@ -101,13 +107,32 @@ bool Line_getIntercept(CVector3 & i, CLine3D l, C3DPlane p)
 
 float Plane_getDistanceFromPoint(C3DPlane plane, CVector3 point)
 {
-	CLine3D line(point, point+plane.get_normal());
+	point = Plane_projectPoint(plane, point) - point;
+	return point.Magnitude();
+}
+
+float Plane_getDistanceFromPoint(C3DPlane plane, CVector3 point, CVector3 min, CVector3 max, float min_padding, float max_padding)
+{
+	min += min_padding;
+	max += max_padding;
+
+	CVector3 point_onplane = Plane_projectPoint(plane, point);
+	if (point_onplane.x < min.x || point_onplane.y < min.y || point_onplane.z < min.z ||
+		point_onplane.x > max.x || point_onplane.y > max.y || point_onplane.z > max.z)
+		return FLT_MAX;
+
+	point = point_onplane - point;
+	return point.Magnitude();
+}
+
+CVector3 Plane_projectPoint(C3DPlane plane, CVector3 point)
+{
+	CLine3D line(point, point + plane.get_normal());
 	CVector3 intercept;
 	if (!Line_getIntercept(intercept, line, plane))
-		return -1.0f;
+		return CVector3();
 
-	point = intercept - point;
-	return point.Magnitude();
+	return intercept;
 }
 
 CVector3 Transform_lerp(CVector3 to, CVector3 from, float factor)
@@ -128,12 +153,12 @@ bool Collision_AABBCheck(CVector3 min, CVector3 max, CVector3 point)
 
 bool Collision_AABBCheck(CVector3 min_1, CVector3 max_1, CVector3 min_2, CVector3 max_2)
 {
-	return (	min_1.x < max_2.x && 
-				min_2.x < max_1.x && 
-				min_1.y < max_2.y &&
-				min_2.y < max_1.y && 
-				min_1.z < max_2.z &&
-				min_2.z < max_1.z );
+	return (	min_1.x <= max_2.x && 
+				min_2.x <= max_1.x && 
+				min_1.y <= max_2.y &&
+				min_2.y <= max_1.y && 
+				min_1.z <= max_2.z &&
+				min_2.z <= max_1.z );
 }
 
 bool Collision_SphereAABBCheck(CVector3 center, float radius, CVector3 _min, CVector3 _max)

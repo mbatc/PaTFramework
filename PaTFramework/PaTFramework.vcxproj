@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\C3DPlane.cpp" />
     <ClCompile Include="source\CApp.cpp" />
     <ClCompile Include="source\CD3DGraphics.cpp" />
     <ClCompile Include="source\CDirectoryFileList.cpp" />
