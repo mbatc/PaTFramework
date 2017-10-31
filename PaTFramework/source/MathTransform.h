@@ -21,6 +21,8 @@ V_RECT RotateRectangle(RECT r, CVector2 a, float rot);
 CVector2 Point_rotate(CVector2 p, CVector2 a, float rot);
 CVector3 Point_rotate(CVector3 p, CVector3 a, CVector3 rot);
 
+CVector3 Point_transform(CVector3 p, CVector3 tran, CVector3 rot = CVector3(), CVector3 scl = CVector3(1.0f,1.0f,1.0f));
+
 float Vector_angleBetween(CVector3 a, CVector3 b);
 
 bool Line_getIntercept(CVector2& i, CLine2D a, CLine2D b);

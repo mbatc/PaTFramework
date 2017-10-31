@@ -33,7 +33,24 @@ CVector2 Point_rotate(CVector2 p, CVector2 a, float rot)
 
 CVector3 Point_rotate(CVector3 p, CVector3 a, CVector3 rot)
 {
-	return CVector3();
+	CVector3 temp = p - a;
+
+	float x = cosf(rot.y)*temp.x + sinf(rot.y)*sinf(rot.x)*temp.y -
+		sinf(rot.y)*cosf(rot.x)*temp.z;
+	float y = cosf(rot.x)*temp.y + sinf(rot.x)*temp.z;
+	float z = sinf(rot.y)*temp.x + cosf(rot.y)*-sin(rot.x)*temp.y +
+		cosf(rot.y)*cosf(rot.x)*temp.z;
+
+	return CVector3(x,y,z) + a;
+}
+
+CVector3 Point_transform(CVector3 p, CVector3 tran, CVector3 rot, CVector3 scl)
+{
+	CVector3 ret = p;
+	ret *= scl;
+	ret = Point_rotate(ret, CVector3(), rot);
+	ret += tran;
+	return ret;
 }
 
 float Vector_angleBetween(CVector3 a, CVector3 b)
