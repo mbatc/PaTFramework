@@ -16,7 +16,14 @@ CMeshData * CMeshImporter::get_data(unsigned int index)
 	if (index < 0 || index > m_nData)
 	{
 		Log(this, DEBUGLOG_LEVEL_WARNING, "Invalid mesh index passed to CMeshImporter::get_data(): %d", index);
-		return NULL;
+		return nullptr;
+	}
+
+	if (m_data[index] == nullptr)
+	{
+		Log(this, DEBUGLOG_LEVEL_WARNING, 
+			"Mesh data and given index has already been retrieved CMeshImporter::get_data(): %d", index);
+		return nullptr;
 	}
 
 	CMeshData* ret_data = new CMeshData;
@@ -26,6 +33,7 @@ CMeshData * CMeshImporter::get_data(unsigned int index)
 	m_data[index]->m_vertex_count = 0;
 	m_data[index]->m_index_count = 0;
 	m_data[index]->m_pIndexBuffer = 0;
+	m_data[index] = nullptr;
 
 	return ret_data;
 }
@@ -142,10 +150,11 @@ unsigned int CMeshImporter::load_mesh_data()
 
 	for (int j = 0; j < vert_count; j++)
 	{
-		m_data[i]->get_vert(j).position = D3DXVECTOR3(pos[j*3], pos[(j * 3) + 1], pos[(j * 3) + 2]);
-		m_data[i]->get_vert(j).normal = D3DXVECTOR3(norm[j*3], norm[(j * 3) + 1], norm[(j * 3) + 2]);
-		m_data[i]->get_vert(j).UV = D3DXVECTOR2(UV[j*2], 1.0f-UV[(j*2) + 1]);
-		m_data[i]->get_vert(j).color = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		CUSTOMVERTEX& v = m_data[i]->get_vert(j);
+		v.position = D3DXVECTOR3(pos[j*3], pos[(j * 3) + 1], pos[(j * 3) + 2]);
+		v.normal = D3DXVECTOR3(norm[j*3], norm[(j * 3) + 1], norm[(j * 3) + 2]);
+		v.UV = D3DXVECTOR2(UV[j*2], 1.0f-UV[(j*2) + 1]);
+		v.color = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	for (int j = 0; j < index_count; j++)
