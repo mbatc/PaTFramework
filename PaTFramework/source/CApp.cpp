@@ -67,6 +67,8 @@ unsigned int CApp::run()
 
 	while (!_exit_flag)
 	{
+		m_sysFrameTimer.Start();
+
 		if (PeekMessage(&_win_msg, NULL, NULL, NULL, PM_REMOVE))
 		{
 			TranslateMessage(&_win_msg);
@@ -77,6 +79,8 @@ unsigned int CApp::run()
 			//Do game and system frame by frame updates
 			update_game();
 			update_system();
+			m_sysFrameTimer.End();
+			m_lastFrameTime = m_sysFrameTimer.GetTime();
 		}
 	}
 
@@ -200,6 +204,7 @@ unsigned int CApp::init_settings()
 
 unsigned int CApp::init_game()
 {
+	m_dTimeMult = 1.0f;
 	m_sysPtr_game = CGame::get_instance();
 	if (!m_sysPtr_game)
 	{
@@ -228,7 +233,7 @@ void CApp::init_log()
 unsigned int CApp::update_game()
 {
 	//Game update
-	m_sysPtr_game->do_update();
+	m_sysPtr_game->do_update(m_lastFrameTime*m_dTimeMult);
 	if (m_app_hook)
 		m_app_hook->on_update_game();
 	//Game render

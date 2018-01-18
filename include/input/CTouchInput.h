@@ -52,7 +52,7 @@ public:
 
 	void SetState(CTouchInputState* s) { state = s; }
 
-	bool IsDown(int index = 0) { return state->GetInput(index); }
+	bool IsDown(int index = 0) { return (bool)state->GetInput(index); }
 	bool IsPressed(int index = 0) { return state->GetInput(index) ? state->GetInput(index)->pressed : false; }
 	bool IsReleased(int index = 0) { return state->GetInput(index) ? state->GetInput(index)->released : false; }
 	float GetTouchX(int index = 0) { return state->GetInput(index) ? state->GetInput(index)->x : -1; }

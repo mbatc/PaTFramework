@@ -8,6 +8,7 @@
 #include <math.h>
 
 CGame* CGame::_instance = 0;
+float CGame::dTime = 0.0f;
 
 void CGame::startup()
 {
@@ -29,8 +30,10 @@ void CGame::startup()
 	}
 }
 
-void CGame::do_update()
+void CGame::do_update(float deltaTime)
 {
+	//Update global delta time variable
+	CGame::dTime = deltaTime;
 	//Do Collision detection
 	CCollisionEngine::get_instance()->update();
 

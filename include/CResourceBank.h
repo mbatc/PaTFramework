@@ -115,7 +115,7 @@ public:
 	////////////////////////////////////////////////////////////
 	
 	void		rem_file(std::string file);
-	bool isFileLoaded(std::string file);
+	bool		isFileLoaded(std::string file);
 
 	unsigned int get_resource_type(unsigned int ID);
 

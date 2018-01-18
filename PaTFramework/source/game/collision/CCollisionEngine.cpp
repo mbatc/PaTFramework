@@ -4,6 +4,7 @@
 
 #include "CColliderAABB.h"
 #include "CColliderSphere.h"
+#include "CColliderTriangle.h"
 
 CCollisionEngine* CCollisionEngine::_instance = 0;
 
@@ -48,17 +49,17 @@ unsigned int CCollisionEngine::update()
 		}
 	}
 
-	//Set previous transform -> used by collider for velocity calculations (can also be used when handling collisions)
-	for (int i = 0; i < m_group.size(); i++)
+//Set previous transform -> used by collider for velocity calculations (can also be used when handling collisions)
+for (int i = 0; i < m_group.size(); i++)
+{
+	for (int j = 0; j < m_group[i]._list.size(); j++)
 	{
-		for (int j = 0; j < m_group[i]._list.size(); j++)
-		{
-			m_group[i]._list[j]._collider->collision();
-			m_group[i]._list[j]._collider->m_prev_transform = m_group[i]._list[j]._collider->m_transform;
-		}
+		m_group[i]._list[j]._collider->collision();
+		m_group[i]._list[j]._collider->m_prev_transform = m_group[i]._list[j]._collider->m_transform;
 	}
+}
 
-	RET_ERR(result);
+RET_ERR(result);
 }
 
 void CCollisionEngine::destroy_collider(CColliderBase * col)
@@ -118,6 +119,12 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 			bCollision = Collision_SphereAABBCheck(b->get_transform().get_translation(),
 				b->get_radius(), a->get_boundmin(), a->get_boundmax());
 		}
+		else if (CCollisionEngine::is_type<CColliderTriangle>(col2))
+		{
+			CColliderTriangle* b = (CColliderTriangle*)col2;
+			bCollision = Collision_TriAABBCheck(b->get_closestside(CVector3()),
+				a->get_boundmin(), a->get_boundmax());
+		}
 	}
 	else if (CCollisionEngine::is_type<CColliderSphere>(col))
 	{
@@ -133,6 +140,32 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 			CColliderSphere* b = (CColliderSphere*)col2;
 			bCollision = Collision_SphereCheck(b->get_transform().get_translation(),
 				b->get_radius() + a->get_radius(), a->get_transform().get_translation());
+		}
+		else if (CCollisionEngine::is_type<CColliderTriangle>(col2))
+		{
+			CColliderTriangle* b = (CColliderTriangle*)col2;
+			bCollision = Collision_TriSphereCheck(b->get_closestside(CVector3()),
+				a->get_transform().get_translation(), a->get_radius());
+		}
+	}
+	else if (CCollisionEngine::is_type<CColliderTriangle>(col))
+	{
+		CColliderTriangle* a = (CColliderTriangle*)col;
+		if (CCollisionEngine::is_type<CColliderAABB>(col2))
+		{
+			CColliderAABB* b = (CColliderAABB*)col2;
+			bCollision = Collision_TriAABBCheck(a->get_closestside(CVector3()), b->get_boundmin(), b->get_boundmax());
+		}
+		else if (CCollisionEngine::is_type<CColliderSphere>(col2))
+		{
+			CColliderSphere* b = (CColliderSphere*)col2;
+			bCollision = Collision_TriSphereCheck(a->get_closestside(CVector3()), b->get_transform().get_translation(),
+				b->get_radius());
+		}
+		else if (CCollisionEngine::is_type<CColliderTriangle>(col2))
+		{
+			CColliderTriangle* b = (CColliderTriangle*)col2;
+			bCollision = Collision_TriCheck(a->get_closestside(CVector3()), b->get_closestside(CVector3()));
 		}
 	}
 
@@ -250,6 +283,7 @@ void CCollisionEngine::init_collidertype_identifier()
 {
 	set_colliderid<CColliderAABB>(1);
 	set_colliderid<CColliderSphere>(2);
+	set_colliderid<CColliderTriangle>(3);
 }
 
 void CCollisionEngine::cleanup()

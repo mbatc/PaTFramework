@@ -1,6 +1,8 @@
 #include "MathTransform.h"
 #include <float.h>
 
+#include <vector>
+
 V_RECT RotateRectangle(RECT r, CVector2 a, float rot)
 {
 	V_RECT ret;
@@ -191,4 +193,118 @@ bool Collision_SphereCheck(CVector3 center, float radius, CVector3 point)
 {
 	CVector3 d = point - center;
 	return d.Magnitude() < radius;
+}
+
+bool Collision_TriAABBCheck(C3DPlane tri, CVector3 min, CVector3 max)
+{
+	// First Check if any of the planes points are within the boundary 
+	// *least expensive collision check - can exit early if true
+
+	for (int i = 0; i < 3; i++)
+		if (Collision_AABBCheck(min, max, tri.get_point(i)))
+			return true;
+
+	// Create an array of 3DLines from the min/max vectors and check if they intersect the 
+	// triangles plane within the boundary points
+
+	CVector3 points[8] = {
+		CVector3(min.x, min.y, min.z),
+		CVector3(min.x, min.y, max.z),
+		CVector3(min.x, max.y, min.z),
+		CVector3(min.x, max.y, max.z),
+		CVector3(max.x, min.y, min.z),
+		CVector3(max.x, max.y, max.z),
+		CVector3(max.x, min.y, min.z),
+		CVector3(max.x, min.y, max.z) };
+
+	std::vector<CLine3D> lines;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (j == i)
+				continue;
+
+			int nChanges = 0;
+			for (int a = 0; a < 3; a++)
+			{
+				if (points[i].get(a) != points[j].get(a))
+					nChanges++;
+			}
+
+			if (nChanges == 1)
+			{
+				CLine3D l = CLine3D(points[i], points[j]);
+
+				bool unique = true;
+				for (int ii = 0; ii < lines.size(); ii++)
+				{
+					if (lines[ii].get_a() == l.get_b() &&
+						lines[ii].get_b() == l.get_a())
+						unique = false;
+				}
+
+				if(unique)
+					lines.push_back(l);
+			}
+		}
+	}
+
+	//Now check for intesections with the triangle
+	for (int i = 0; i < lines.size(); i++)
+	{
+		CVector3 intercept;
+		if (!Line_getIntercept(intercept, lines[i], tri))
+			continue;
+
+		for (int j = 0; j < 3; j++)
+		{
+			int a = j % 3; int b = (j + 1) % 3; int c = (j + 2) % 3;
+			float angle = abs(Vector_angleBetween(tri.get_point(a) - tri.get_point(b), tri.get_point(c) - tri.get_point(b)));
+
+			float check_1 = abs(Vector_angleBetween(tri.get_point(a) - tri.get_point(b), intercept - tri.get_point(b)));
+			float check_2 = abs(Vector_angleBetween(tri.get_point(c) - tri.get_point(b), intercept - tri.get_point(b)));
+
+			if (check_1 > angle || check_2 > angle)
+				break;
+
+			if (j == 2)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool Collision_TriSphereCheck(C3DPlane tri, CVector3 center, float radius)
+{
+	return false;
+}
+
+bool Collision_TriCheck(C3DPlane tri, C3DPlane tri2)
+{
+	//Now check for intesections with the triangle
+	for (int i = 0; i < 3; i++)
+	{
+		CVector3 intercept;
+		Line_getIntercept(intercept, CLine3D(tri2.get_point(i), tri2.get_point((i + 1) % 3)), tri);
+
+		for (int j = 0; j < 3; j++)
+		{
+			int a = j % 3; int b = (j + 1) % 3; int c = (j + 2) % 3;
+			float angle = abs(Vector_angleBetween(tri.get_point(a) - tri.get_point(b), tri.get_point(c) - tri.get_point(b)));
+
+			float check_1 = abs(Vector_angleBetween(tri.get_point(a) - tri.get_point(b), intercept - tri.get_point(b)));
+			float check_2 = abs(Vector_angleBetween(tri.get_point(c) - tri.get_point(b), intercept - tri.get_point(b)));
+
+			if (check_1 > angle || check_2 > angle)
+				break;
+
+			if (j == 2)
+				return true;
+		}
+	}
+
+	return false;
 }

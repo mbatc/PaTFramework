@@ -181,3 +181,19 @@ char * STRING::ScanFromStart(char * src, char * match)
 {
 	return strstr(src, match);
 }
+
+std::string pointer_to_string(void * addr, int max_len)
+{
+	{
+		char* buf = new char[max_len];
+
+		if (!buf)
+			return "";
+
+		sprintf_s(buf, max_len, "%p", addr);
+
+		std::string r = buf;
+		delete buf;
+		return r;
+	}
+}

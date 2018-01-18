@@ -94,7 +94,8 @@ int CResourceBank::create_dxmesh_at_index(int index)
 
 int CResourceBank::create_dxmesh(std::string name)
 {
-	return create_dxmesh(m_mesh.get_resource(name), true, 0, name);
+	CMeshData* data = m_mesh.get_resource(name);
+	return create_dxmesh(data, true, name);
 }
 
 std::vector<int> CResourceBank::create_dxmesh_from_file(std::string filename)

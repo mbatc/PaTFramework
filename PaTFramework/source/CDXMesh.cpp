@@ -38,6 +38,9 @@ void CDXMesh::release()
 
 unsigned int CDXMesh::get_vertexbuffer(ID3D11Buffer ** buffer)
 {
+	if (!m_pVB)
+		return 1;
+
 	*buffer = m_pVB;
 	m_pVB->AddRef();
 
@@ -46,6 +49,9 @@ unsigned int CDXMesh::get_vertexbuffer(ID3D11Buffer ** buffer)
 
 unsigned int CDXMesh::get_indexbuffer(ID3D11Buffer ** buffer)
 {
+	if (!m_pIB)
+		return 1;
+
 	*buffer = m_pIB;
 	m_pIB->AddRef();
 

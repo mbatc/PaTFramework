@@ -4,6 +4,7 @@
 
 
 #include "CWindow.h"
+#include "CTimer.h"
 #include "game\CGame.h"
 
 #include "input\CKeyboardInput.h"
@@ -103,6 +104,8 @@ public:
 	void set_exitflag() { Log(this, DEBUGLOG_LEVEL_INFO, "exit_flag set (_last_error_=%s)", 
 		CError::get_instance()->get_errorChar(GETLASTERROR())); _exit_flag = true; };
 
+	void set_dTimeMultiplier(float mult) { m_dTimeMult = mult; }
+
 private:
 	void do_startup_log(int argc, char** argv);
 	unsigned int init_console();
@@ -136,6 +139,9 @@ private:
 
 	//Game
 	CGame*				m_sysPtr_game;
+	CTimer				m_sysFrameTimer;
+	float				m_lastFrameTime;
+	float				m_dTimeMult;
 	//Settings
 
 	//Resources

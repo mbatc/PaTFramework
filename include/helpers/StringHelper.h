@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace STRING
 {
 	char* Copy(char*& dest, const char* src);
@@ -15,3 +17,5 @@ namespace STRING
 	//NULL if it does no appear
 	char* ScanFromStart(char* src, char* match);
 }
+
+std::string pointer_to_string(void* addr, int max_len);

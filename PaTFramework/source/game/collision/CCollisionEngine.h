@@ -5,8 +5,11 @@
 #include "CColliderBase.h"
 #include "CColliderAABB.h"
 #include "CColliderSphere.h"
+#include "CColliderTriangle.h" 
 
 #define CREATE_COLLIDER(type) CCollisionEngine::get_instance()->create_collider<type>()
+#define CREATE_COLLIDER(type, group) CCollisionEngine::get_instance()->create_collider<type>(group)
+
 #define DESTROY_COLLIDER(collider) CCollisionEngine::get_instance()->unregister_collider(collider)
 
 class CCollisionEngine
@@ -91,6 +94,10 @@ public:
 		else if (identifier == get_typeidentifier<CColliderSphere>())
 		{
 			i = register_collider(new CColliderSphere(), group);
+		}
+		else if (identifier == get_typeidentifier<CColliderTriangle>())
+		{
+			i = register_collider(new CColliderTriangle(), group);
 		}
 		if (i < 0)
 			return nullptr;

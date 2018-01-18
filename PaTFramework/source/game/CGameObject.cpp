@@ -2,6 +2,8 @@
 #include "../MathTransform.h"
 #include "../CD3DGraphics.h"
 
+#include "CGame.h"
+
 CGameObject::CGameObject(std::string name)
 	:
 	m_name(name)
@@ -159,5 +161,5 @@ void CGameObject::rem_component(std::string name)
 
 void CGameObject::lerp_to_parent(float factor)
 {
-	m_lerp_factor = factor;
+	m_lerp_factor = factor*CGame::dTime;
 }

@@ -1,11 +1,22 @@
 #pragma once
 
+
+#ifdef _WIN32 || _WIN64
+	#include "CD3DGraphics.h"
+#endif
+
 class CVector3
 {
 public:
+#ifdef _WIN32 || _WIN64
+	CVector3(D3DXVECTOR3 v);
+#endif
 	CVector3();
 	CVector3(float x, float y, float z);
 	~CVector3();
+
+	//0 == x; 1 == y; 2 == z;
+	float get(int axis);
 	
 	float x,y,z;
 

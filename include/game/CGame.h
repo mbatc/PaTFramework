@@ -24,7 +24,7 @@ public:
 	}
 	void startup();
 
-	void do_update();
+	void do_update(float deltaTime);
 	void do_render(CD3DGraphics& gfx);
 
 	unsigned int get_lasterror();
@@ -33,6 +33,7 @@ public:
 		return m_pScene;
 	};
 
+	static float dTime;
 private:
 	CGameScene* m_pScene;
 	unsigned int _last_error;

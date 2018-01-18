@@ -46,13 +46,13 @@ public:
 	ID3D11Device*			Device() { return m_pDXDevice; }
 	ID3D11DeviceContext*	Context() { return m_pDXContext; }
 	unsigned int GetClientWidth() {
-		if (m_cTarget < 0 || m_cTarget >= m_pRenderTarget.size()) return 0; 
-		else if (!m_pRenderTarget[m_cTarget]->m_pWnd) return 0; 
+		if (m_cTarget < 0 || m_cTarget >= (int)m_pRenderTarget.size()) return (UINT)0; 
+		else if (!m_pRenderTarget[m_cTarget]->m_pWnd) return (UINT)0; 
 		else return m_pRenderTarget[m_cTarget]->m_pWnd->GetWidth();
 	}
 	unsigned int GetClientHeight() { 
-		if (m_cTarget < 0 || m_cTarget >= m_pRenderTarget.size()) return 0; 
-		else if (!m_pRenderTarget[m_cTarget]->m_pWnd) return 0; 
+		if (m_cTarget < 0 || m_cTarget >= (int)m_pRenderTarget.size()) return (UINT)0; 
+		else if (!m_pRenderTarget[m_cTarget]->m_pWnd) return (UINT)0; 
 		else return m_pRenderTarget[m_cTarget]->m_pWnd->GetHeight();
 	}
 
