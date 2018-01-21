@@ -1,5 +1,5 @@
-﻿  CColliderTriangle.cpp
-e:\programming projects\patframework\patframework\source\cvector3.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+﻿  MathTransform.cpp
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\cvector3.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED': macro redefinition
   c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50092): note: see previous definition of 'DXGI_STATUS_OCCLUDED'
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED': macro redefinition
@@ -56,7 +56,12 @@ c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): w
   c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50445): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
   c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50454): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
-e:\programming projects\patframework\patframework\source\cd3dgraphics.h(155): warning C4018: '<': signed/unsigned mismatch
-e:\programming projects\patframework\patframework\source\cvector3.h(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-e:\programming projects\patframework\patframework\source\game\collision\ccollidertriangle.cpp(3): warning C4356: 'CColliderBase_inherit<CColliderTriangle>::_derived_id': static data member cannot be initialized via derived class
-  PaTFramework.vcxproj -> E:\Programming Projects\PaTFramework\Debug\PaTFramework.lib
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\cd3dgraphics.h(155): warning C4018: '<': signed/unsigned mismatch
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\cvector3.h(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\mathtransform.cpp(10): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\mathtransform.cpp(11): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\mathtransform.cpp(12): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\mathtransform.cpp(13): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\mathtransform.cpp(241): warning C4018: '<': signed/unsigned mismatch
+c:\users\mick\documents\programming projects\gamedev framework\patframework\patframework\source\mathtransform.cpp(255): warning C4018: '<': signed/unsigned mismatch
+  PaTFramework.vcxproj -> C:\Users\Mick\Documents\Programming Projects\GameDev Framework\PaTFramework\Debug\PaTFramework.lib

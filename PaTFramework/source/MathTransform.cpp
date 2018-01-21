@@ -258,6 +258,9 @@ bool Collision_TriAABBCheck(C3DPlane tri, CVector3 min, CVector3 max)
 		if (!Line_getIntercept(intercept, lines[i], tri))
 			continue;
 
+		if(!lines[i].within_givenpoints(intercept))
+			continue;
+
 		for (int j = 0; j < 3; j++)
 		{
 			int a = j % 3; int b = (j + 1) % 3; int c = (j + 2) % 3;
