@@ -276,6 +276,9 @@
     <ClCompile Include="source\C3DPlane.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\collision\CColliderMesh.cpp">
+      <Filter>Source Files\game\collision\colliders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\CTimer.h">
@@ -519,6 +522,9 @@
       <Filter>Header Files\game\collision\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="source\game\collision\CColliderTriangle.h">
+      <Filter>Header Files\game\collision\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\collision\CColliderMesh.h">
       <Filter>Header Files\game\collision\Colliders</Filter>
     </ClInclude>
   </ItemGroup>

@@ -195,6 +195,36 @@ bool Collision_SphereCheck(CVector3 center, float radius, CVector3 point)
 	return d.Magnitude() < radius;
 }
 
+bool Collision_TriAABBCheck(C3DPlane tri, C3DPlane* col_planes)
+{
+	CLine3D tri_line[3] = {
+		CLine3D(tri.get_point(0), tri.get_point(1)),
+		CLine3D(tri.get_point(1), tri.get_point(2)),
+		CLine3D(tri.get_point(2), tri.get_point(0))
+	};
+
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			CVector3 intercept;
+			if (!Line_getIntercept(intercept, tri_line[j], col_planes[i]))
+				continue;
+			if (!tri_line[j].within_givenpoints(intercept))
+				continue;
+			CVector3 min; col_planes[i].get_min(min);
+			CVector3 max; col_planes[i].get_max(max);
+
+			if (!Collision_AABBCheck(min, max, intercept))
+				continue;
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Collision_TriAABBCheck(C3DPlane tri, CVector3 min, CVector3 max)
 {
 	// First Check if any of the planes points are within the boundary 
@@ -296,10 +326,20 @@ bool Collision_TriCheck(C3DPlane tri, C3DPlane tri2)
 		for (int j = 0; j < 3; j++)
 		{
 			int a = j % 3; int b = (j + 1) % 3; int c = (j + 2) % 3;
+			//Check within first triangle
 			float angle = abs(Vector_angleBetween(tri.get_point(a) - tri.get_point(b), tri.get_point(c) - tri.get_point(b)));
 
 			float check_1 = abs(Vector_angleBetween(tri.get_point(a) - tri.get_point(b), intercept - tri.get_point(b)));
 			float check_2 = abs(Vector_angleBetween(tri.get_point(c) - tri.get_point(b), intercept - tri.get_point(b)));
+
+			if (check_1 > angle || check_2 > angle)
+				break;
+			
+			//Check within second triangle
+			angle = abs(Vector_angleBetween(tri2.get_point(a) - tri2.get_point(b), tri2.get_point(c) - tri2.get_point(b)));
+
+			check_1 = abs(Vector_angleBetween(tri2.get_point(a) - tri2.get_point(b), intercept - tri2.get_point(b)));
+			check_2 = abs(Vector_angleBetween(tri2.get_point(c) - tri2.get_point(b), intercept - tri2.get_point(b)));
 
 			if (check_1 > angle || check_2 > angle)
 				break;

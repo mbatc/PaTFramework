@@ -49,17 +49,17 @@ unsigned int CCollisionEngine::update()
 		}
 	}
 
-//Set previous transform -> used by collider for velocity calculations (can also be used when handling collisions)
-for (int i = 0; i < m_group.size(); i++)
-{
-	for (int j = 0; j < m_group[i]._list.size(); j++)
+	//Set previous transform -> used by collider for velocity calculations (can also be used when handling collisions)
+	for (int i = 0; i < m_group.size(); i++)
 	{
-		m_group[i]._list[j]._collider->collision();
-		m_group[i]._list[j]._collider->m_prev_transform = m_group[i]._list[j]._collider->m_transform;
+		for (int j = 0; j < m_group[i]._list.size(); j++)
+		{
+			m_group[i]._list[j]._collider->collision();
+			m_group[i]._list[j]._collider->m_prev_transform = m_group[i]._list[j]._collider->m_transform;
+		}
 	}
-}
 
-RET_ERR(result);
+	RET_ERR(result);
 }
 
 void CCollisionEngine::destroy_collider(CColliderBase * col)
@@ -104,6 +104,19 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 {
 	bool bCollision = false;
 
+	//Variables only used for mesh collisions
+	bool mesh_collision = false;
+	std::vector<int> mesh_face_flags;
+	std::vector<int> mesh2_face_flags; //Used for mesh to mesh collisions
+
+	if (CCollisionEngine::is_type<CColliderMesh>(col2) &&
+		!CCollisionEngine::is_type<CColliderMesh>(col))
+	{
+		auto temp = col2;
+		col2 = col;
+		col = temp;
+	}
+
 	if (CCollisionEngine::is_type<CColliderAABB>(col))
 	{
 		CColliderAABB* a = (CColliderAABB*)col;
@@ -124,6 +137,11 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 			CColliderTriangle* b = (CColliderTriangle*)col2;
 			bCollision = Collision_TriAABBCheck(b->get_closestside(CVector3()),
 				a->get_boundmin(), a->get_boundmax());
+			if (!bCollision)
+			{
+				bCollision = Collision_TriAABBCheck(b->get_closestside(CVector3()),
+					a->get_sides_translated());
+			}
 		}
 	}
 	else if (CCollisionEngine::is_type<CColliderSphere>(col))
@@ -155,6 +173,11 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 		{
 			CColliderAABB* b = (CColliderAABB*)col2;
 			bCollision = Collision_TriAABBCheck(a->get_closestside(CVector3()), b->get_boundmin(), b->get_boundmax());
+			if (!bCollision)
+			{
+				bCollision = Collision_TriAABBCheck(a->get_closestside(CVector3()),
+					b->get_sides_translated());
+			}
 		}
 		else if (CCollisionEngine::is_type<CColliderSphere>(col2))
 		{
@@ -168,18 +191,93 @@ unsigned int CCollisionEngine::check_collision(CColliderBase * col, CColliderBas
 			bCollision = Collision_TriCheck(a->get_closestside(CVector3()), b->get_closestside(CVector3()));
 		}
 	}
+	else if (mesh_collision = CCollisionEngine::is_type<CColliderMesh>(col))
+	{
+		CColliderMesh* a = (CColliderMesh*)col;
+		if (CCollisionEngine::is_type<CColliderAABB>(col2))
+		{
+			CColliderAABB* b = (CColliderAABB*)col2;
+			for (int i = 0; i < a->get_face_count(); i++)
+			{
+				if (Collision_TriAABBCheck(a->get_face(i)->get_closestside(CVector3()),
+					b->get_sides()))
+					mesh_face_flags.push_back(i);
+			}
+		}
+		else if (CCollisionEngine::is_type<CColliderSphere>(col2))
+		{
+			CColliderSphere* b = (CColliderSphere*)col2;
+			for (int i = 0; i < a->get_face_count(); i++)
+			{
+				if (Collision_TriSphereCheck(a->get_face(i)->get_closestside(CVector3()),
+					b->get_transform().get_translation(), b->get_radius()))
+					mesh_face_flags.push_back(i);
+			}
+		}
+		else if (CCollisionEngine::is_type<CColliderTriangle>(col2))
+		{
+			CColliderTriangle* b = (CColliderTriangle*)col2;
+			for (int i = 0; i < a->get_face_count(); i++)
+			{
+				if (Collision_TriCheck(a->get_face(i)->get_closestside(CVector3()),
+					b->get_closestside(CVector3())))
+					mesh_face_flags.push_back(i);
+			}
+		}
+		else if (CCollisionEngine::is_type<CColliderMesh>(col2))
+		{
+			CColliderMesh* b = (CColliderMesh*)col2;
+			for (int i = 0; i < a->get_face_count(); i++)
+			{
+				for (int j = 0; j < b->get_face_count(); j++)
+				{
+					if (Collision_TriCheck(a->get_face(i)->get_closestside(CVector3()),
+						b->get_face(j)->get_closestside(CVector3())))
+					{
+						mesh_face_flags.push_back(i);
+						mesh2_face_flags.push_back(j);
+					}
+				}
+			}
+		}
+	}
 
 	if (bCollision)
 	{
-		CCollisionData data = col->calculate_collision(col2);
-		col->add_collision(data);
-
-		//Invert the data as the collision information is the same, just the colliders are switched around
-		//This is done so that the same calculations aren't done twice
-		data.switch_colliderinfo(col);
-		col2->add_collision(data);
+		add_collision_data(col, col2);
+	}
+	else if (mesh_collision)
+	{
+		CColliderMesh* a = (CColliderMesh*)col;
+		if (mesh2_face_flags.size() > 0)
+		{
+			CColliderMesh* b = (CColliderMesh*)col2;
+			for (int i = 0; i < mesh_face_flags.size(); i++)
+			{
+				add_collision_data(a->get_face(mesh_face_flags[i]),
+					b->get_face(mesh2_face_flags[i]));
+			}
+		}
+		else
+		{
+			for (int i = 0; i < mesh_face_flags.size(); i++)
+			{
+				add_collision_data(a->get_face(mesh_face_flags[i]),col2);
+			}
+		}
 	}
 	return 0;
+}
+
+void CCollisionEngine::add_collision_data(CColliderBase * col, CColliderBase * col2)
+{
+	CCollisionData data = col->calculate_collision(col2);
+	col->add_collision(data);
+
+	//Invert the data as the collision information is the same, just the colliders are switched around
+	//This is done so that the same calculations aren't done twice
+	data.switch_colliderinfo(col);
+	col2->add_collision(data);
 }
 
 unsigned int CCollisionEngine::register_collider(CColliderBase * collider, std::string name)
@@ -284,6 +382,7 @@ void CCollisionEngine::init_collidertype_identifier()
 	set_colliderid<CColliderAABB>(1);
 	set_colliderid<CColliderSphere>(2);
 	set_colliderid<CColliderTriangle>(3);
+	set_colliderid<CColliderMesh>(4);
 }
 
 void CCollisionEngine::cleanup()

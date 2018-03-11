@@ -50,27 +50,27 @@ public:
 	CColliderBase();
 	~CColliderBase();
 	
-	unsigned int update();
+	virtual unsigned int update();
 	unsigned int collision();
 	
-	CCollisionData				get_collisiondata(int index);
+	virtual CCollisionData		get_collisiondata(int index);
 	CCollisionData				calculate_collision(CColliderBase* collider);
-	//Get center point of the collider
+	// Get center point of the collider
 	CTransform&					get_transform();
-	//Get side closest to this point (use angles/trig) - function will be defined separately for different collider types
+	// Get side closest to this point (use angles/trig) - function will be defined separately for different collider types
 	virtual C3DPlane			get_closestside(CVector3 to);
 
-	unsigned int				get_collisioncount();
+	virtual unsigned int		get_collisioncount();
 	unsigned int				add_collision(CCollisionData data);
 
 	std::string					get_groupname() { return m_group_name; }
 
-	//Get and Set the pointer to the gameobect. The collision() function of the object passed to this function will be
-	//envoked when a collision is detected.
+	// Get and Set the pointer to the gameobect. The collision() function of the object passed to this function will be
+	// envoked when a collision is detected.
 	unsigned int				set_gameobject(CGameObject* obj);
 	CGameObject*				get_gameobject() { return m_handleObj; }
 protected:
-	//Get ur closest side to the colliding object as well as theres to you and find intercept along collision path
+	// Return the point where the collision occured (or best estimate)
 	virtual CVector3			get_collision_point(CColliderBase* b);
 	std::vector<CCollisionData>	m_data;
 private:

@@ -18,11 +18,19 @@
 class C3DPlane
 {
 public:
-	C3DPlane(CVector3 p_1, CVector3 p_2, CVector3 p_3, CVector3 p_4 = CVector3()) {
-		set_point(p_1, PLANE_POINT_1);
-		set_point(p_2, PLANE_POINT_2);
-		set_point(p_3, PLANE_POINT_3);
-		set_point(p_4, PLANE_POINT_4);
+	C3DPlane(CVector3 p_1, CVector3 p_2, CVector3 p_3) {
+		set_point(p_1, PLANE_POINT_1); points_set[PLANE_POINT_1] = true;
+		set_point(p_2, PLANE_POINT_2); points_set[PLANE_POINT_2] = true;
+		set_point(p_3, PLANE_POINT_3); points_set[PLANE_POINT_3] = true;
+		_set_point(CVector3(), PLANE_POINT_4);
+		update_plane();
+	}
+
+	C3DPlane(CVector3 p_1, CVector3 p_2, CVector3 p_3, CVector3 p_4) {
+		set_point(p_1, PLANE_POINT_1); points_set[PLANE_POINT_1] = true;
+		set_point(p_2, PLANE_POINT_2); points_set[PLANE_POINT_2] = true;
+		set_point(p_3, PLANE_POINT_3); points_set[PLANE_POINT_3] = true;
+		set_point(p_4, PLANE_POINT_4); points_set[PLANE_POINT_4] = true;
 		update_plane();
 	}
 
@@ -33,14 +41,14 @@ public:
 	}
 
 	C3DPlane() {
-		set_point(CVector3(), PLANE_POINT_1);
-		set_point(CVector3(), PLANE_POINT_2);
-		set_point(CVector3(), PLANE_POINT_3);
-		set_point(CVector3(), PLANE_POINT_4);
+		_set_point(CVector3(), PLANE_POINT_1);
+		_set_point(CVector3(), PLANE_POINT_2);
+		_set_point(CVector3(), PLANE_POINT_3);
+		_set_point(CVector3(), PLANE_POINT_4);
 		update_plane();
 	}
 	
-	void		set_point(CVector3 p, int index) { if (!valid_index(index)) return;  m_point[index] = p; }
+	void		set_point(CVector3 p, int index) { if (!valid_index(index)) return;  points_set[index] = true;  m_point[index] = p; }
 	void		set_normal(CVector3 norm) { m_normal = norm; }
 	CVector3	get_normal() { return m_normal; }
 	CVector3	get_point(int index) { if (!valid_index(index))return CVector3(); return m_point[index]; }
@@ -48,6 +56,11 @@ public:
 	
 	//returns vector containing coefficients of the planes scalar equation
 	CVector4	get_scalar() { return m_scalar_values; }
+
+	int	get_min(CVector3& point);
+	int	get_max(CVector3& point);
+
+	int nPointsSet();
 
 	void update_plane(bool from_normal=false) {
 		if (!from_normal)
@@ -70,6 +83,9 @@ public:
 		m_scalar_values.w = (m_normal.x * m_point[0].x) + (m_normal.y*m_point[0].y) + (m_normal.z*m_point[0].z);
 	}
 private:
+	void _set_point(CVector3 p, int index) { if (!valid_index(index)) return; m_point[index] = p; }
+	bool points_set[5];
+
 	bool valid_index(int index) {
 		return !(index < 0 || index >= PLANE_MAX_POINTS);
 	}

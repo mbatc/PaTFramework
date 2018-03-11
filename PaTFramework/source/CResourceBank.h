@@ -59,10 +59,7 @@ public:
 	void		rem_mesh(std::string name);
 	void		rem_mesh(unsigned int id);
 	void		rem_mesh(CMeshData* data);
-
-	CMeshData*	get_mesh(std::string filename, std::string name);
-	CMeshData*	get_mesh(std::string filename, int index);
-
+	
 	CMeshData*	get_mesh(unsigned int id);
 	CMeshData*	get_mesh(std::string name);
 	CMeshData*	get_mesh_at_index(int index);
@@ -126,6 +123,7 @@ private:
 
 	void clean_mesh();
 	void clean_dxmesh();
+	void clean_dxtexture();
 
 	CResourceList<CMeshData>	m_mesh;
 	CResourceList<CDXMesh>		m_dxMesh;

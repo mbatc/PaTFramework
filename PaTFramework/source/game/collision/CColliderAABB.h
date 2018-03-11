@@ -22,12 +22,18 @@ public:
 	CVector3 get_collision_point(CColliderBase* base) override;
 	CVector3 get_vertex(int index) const { if (index < 0 || index >= AABB_VERT_COUNT) return CVector3(); return points[index]; }
 	CVector3 get_vertex_translated(int index) { return get_vertex(index) + get_transform().get_translation(); }
+
+	C3DPlane* get_sides() { return sides; }
+	C3DPlane* get_sides_translated() { update_sides_trans(); return sides_translated; }
 private:
 	void update_sides();
+	void update_sides_trans();
 
 	CVector3 m_min;
 	CVector3 m_max;
 
 	CVector3 points[AABB_VERT_COUNT];
 	C3DPlane sides[AABB_SIDE_COUNT];
+
+	C3DPlane sides_translated[AABB_SIDE_COUNT];
 };

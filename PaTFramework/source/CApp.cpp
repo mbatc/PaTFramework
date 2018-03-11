@@ -89,14 +89,11 @@ unsigned int CApp::run()
 
 unsigned int CApp::shutdown()
 {
-	CResourceBank::get_instance()->shutdown();
 	CResourceBank::destroy();
 	CImporter::destroy_instance();
 	CCollisionEngine::destroy_instance();
 	CError::destroy_instance();
 	CComponentFactory::destroy_instance();
-
-
 
 	return GETLASTERROR();
 }

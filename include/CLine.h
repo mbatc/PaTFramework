@@ -39,8 +39,8 @@ public:
 	}
 
 	virtual bool within_givenpoints(T p) {
-		return	(p.x >= m_a.x && p.x <= m_b.x) && 
-				(p.y >= m_a.y && p.y <= m_b.y);
+		return	(p.x >= min(m_a.x, m_b.x) && p.x <= max(m_a.x, m_b.x)) &&
+				(p.y >= min(m_a.y, m_b.y) && p.y <= max(m_a.y, m_b.y));
 	}
 
 	T get_dir() { return m_dir; }
@@ -88,7 +88,7 @@ public:
 	float get_ZatY(float y) { return get_ZatT(get_TatY(y));	}
 
 	bool within_givenpoints(CVector3 v) override {
-		return v.z >= m_a.z && v.y <= m_b.z && CLine::within_givenpoints(v);
+		return v.z >= min(m_a.z,m_b.z) && v.z <= max(m_a.z, m_b.z) && CLine::within_givenpoints(v);
 	}
 private:
 	float get_TatZ(float z) {

@@ -159,6 +159,7 @@
     <ClCompile Include="source\game\CGameScene.cpp" />
     <ClCompile Include="source\game\collision\CColliderAABB.cpp" />
     <ClCompile Include="source\game\collision\CColliderBase.cpp" />
+    <ClCompile Include="source\game\collision\CColliderMesh.cpp" />
     <ClCompile Include="source\game\collision\CColliderSphere.cpp" />
     <ClCompile Include="source\game\collision\CColliderTriangle.cpp" />
     <ClCompile Include="source\game\collision\CCollisionEngine.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="source\game\CGameScene.h" />
     <ClInclude Include="source\game\collision\CColliderAABB.h" />
     <ClInclude Include="source\game\collision\CColliderBase.h" />
+    <ClInclude Include="source\game\collision\CColliderMesh.h" />
     <ClInclude Include="source\game\collision\CColliderSphere.h" />
     <ClInclude Include="source\game\collision\CColliderTriangle.h" />
     <ClInclude Include="source\game\collision\CCollisionEngine.h" />

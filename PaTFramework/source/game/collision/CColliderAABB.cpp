@@ -229,3 +229,51 @@ void CColliderAABB::update_sides()
 	sides[5].set_point(CVector3(m_min.x, m_max.y, m_max.z), 0);
 	sides[5].update_plane();
 }
+
+void CColliderAABB::update_sides_trans()
+{
+	CVector3 max = get_boundmax();
+	CVector3 min = get_boundmin();
+
+	//TOP PLANE n(0,1,0)
+	sides_translated[0].set_point(CVector3(max.x, max.y, max.z), 0);
+	sides_translated[0].set_point(CVector3(max.x, max.y, min.z), 1);
+	sides_translated[0].set_point(CVector3(min.x, max.y, min.z), 2);
+	sides_translated[0].set_point(CVector3(min.x, max.y, max.z), 3);
+	sides_translated[0].update_plane();
+
+	//BOTTOM PLANE n(0,-1,0)
+	sides_translated[1].set_point(CVector3(max.x, min.y, max.z), 3);
+	sides_translated[1].set_point(CVector3(max.x, min.y, min.z), 2);
+	sides_translated[1].set_point(CVector3(min.x, min.y, min.z), 1);
+	sides_translated[1].set_point(CVector3(min.x, min.y, max.z), 0);
+	sides_translated[1].update_plane();
+
+	//RIGHT PLANE n(1,0,0)
+	sides_translated[2].set_point(CVector3(max.x, min.y, max.z), 3);
+	sides_translated[2].set_point(CVector3(max.x, min.y, min.z), 2);
+	sides_translated[2].set_point(CVector3(max.x, max.y, min.z), 1);
+	sides_translated[2].set_point(CVector3(max.x, max.y, max.z), 0);
+	sides_translated[2].update_plane();
+
+	//LEFT PLANE n(-1,0,0)
+	sides_translated[3].set_point(CVector3(min.x, min.y, max.z), 0);
+	sides_translated[3].set_point(CVector3(min.x, min.y, min.z), 1);
+	sides_translated[3].set_point(CVector3(min.x, max.y, min.z), 2);
+	sides_translated[3].set_point(CVector3(min.x, max.y, max.z), 3);
+	sides_translated[3].update_plane();
+
+	//NEAR PLANE n(0,0-1)
+	sides_translated[4].set_point(CVector3(min.x, min.y, min.z), 0);
+	sides_translated[4].set_point(CVector3(max.x, min.y, min.z), 1);
+	sides_translated[4].set_point(CVector3(max.x, max.y, min.z), 2);
+	sides_translated[4].set_point(CVector3(min.x, max.y, min.z), 3);
+	sides_translated[4].update_plane();
+
+	//FAR PLANE n(0,0,1)
+	sides_translated[5].set_point(CVector3(min.x, min.y, max.z), 3);
+	sides_translated[5].set_point(CVector3(max.x, min.y, max.z), 2);
+	sides_translated[5].set_point(CVector3(max.x, max.y, max.z), 1);
+	sides_translated[5].set_point(CVector3(min.x, max.y, max.z), 0);
+	sides_translated[5].update_plane();
+}

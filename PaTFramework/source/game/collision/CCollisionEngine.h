@@ -6,6 +6,7 @@
 #include "CColliderAABB.h"
 #include "CColliderSphere.h"
 #include "CColliderTriangle.h" 
+#include "CColliderMesh.h"
 
 #define CREATE_COLLIDER(type) CCollisionEngine::get_instance()->create_collider<type>()
 #define CREATE_COLLIDER(type, group) CCollisionEngine::get_instance()->create_collider<type>(group)
@@ -99,6 +100,10 @@ public:
 		{
 			i = register_collider(new CColliderTriangle(), group);
 		}
+		else if (identifier == get_typeidentifier<CColliderMesh>())
+		{
+			i = register_collider(new CColliderMesh(), group);
+		}
 		if (i < 0)
 			return nullptr;
 
@@ -111,7 +116,8 @@ private:
 	void destroy_collider(CColliderBase* col, ColliderGroup group);
 	void destroy_collider(int index, ColliderGroup group);
 
-	unsigned int check_collision(CColliderBase* col, CColliderBase* col2);
+	unsigned int	check_collision(CColliderBase* col, CColliderBase* col2);
+	void			add_collision_data(CColliderBase* col, CColliderBase* col2);
 
 	unsigned int register_collider(CColliderBase* collider, std::string name);
 	unsigned int unregister_collider(int id, ColliderGroup g);

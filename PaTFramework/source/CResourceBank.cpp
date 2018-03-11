@@ -256,7 +256,11 @@ unsigned int CResourceBank::get_resource_type(unsigned int ID)
 
 void CResourceBank::shutdown()
 {
+	//Release all resources
+
 	clean_mesh();
+	clean_dxmesh();
+	clean_dxtexture();
 }
 
 void CResourceBank::AddResIDToFileDef(std::string file, unsigned int ID)
@@ -280,7 +284,7 @@ void CResourceBank::AddResIDToFileDef(std::string file, unsigned int ID)
 
 unsigned int CResourceBank::get_unique_id()
 {
-	int id = rand()*INT_MAX;
+	unsigned int id = rand()*(INT_MAX-1)+1;
 
 	if (get_resource_type(id) != RESBANK_TYPE_UNKNOWN)
 		return get_unique_id();
@@ -290,10 +294,7 @@ unsigned int CResourceBank::get_unique_id()
 
 void CResourceBank::clean_mesh()
 {
-	for (int i = m_mesh.get_count(); i >= 0; i--)
-	{
-		m_mesh.rem_resource_at_index(i);
-	}
+	m_mesh.cleanup();
 }
 
 void CResourceBank::clean_dxmesh()
@@ -302,7 +303,11 @@ void CResourceBank::clean_dxmesh()
 	{
 		if (m_dxMesh.allowdelete(i))
 			m_dxMesh.get_resource_at_index(i)->release();
-
-		m_dxMesh.rem_resource_at_index(i);
 	}
+	m_dxMesh.cleanup();
+}
+
+void CResourceBank::clean_dxtexture()
+{
+	m_dxTexture.cleanup();
 }

@@ -42,6 +42,8 @@ bool Collision_AABBCheck(CVector3 min_1, CVector3 max_1, CVector3 min_2, CVector
 bool Collision_SphereAABBCheck(CVector3 center, float radius, CVector3 _min, CVector3 _max);
 bool Collision_SphereCheck(CVector3 center, float radius, CVector3 point);
 
+//C3DPlane must have a size of 6
+bool Collision_TriAABBCheck(C3DPlane tri, C3DPlane* col_planes);
 bool Collision_TriAABBCheck(C3DPlane tri, CVector3 min, CVector3 max);
 bool Collision_TriSphereCheck(C3DPlane tri, CVector3 center, float radius);
 bool Collision_TriCheck(C3DPlane tri, C3DPlane tri2);
