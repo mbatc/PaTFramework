@@ -20,10 +20,13 @@ unsigned int CColliderBase::update()
 
 unsigned int CColliderBase::collision()
 {
-	if (m_data.size() == 0 || !m_handleObj)
+	auto data = get_data();
+	if (data.size() == 0 || !m_handleObj)
 		return 0;
 
-	return m_handleObj->collision(this,m_data);
+	int res = m_handleObj->collision(this, data);
+	update();
+	return res;
 }
 
 CCollisionData CColliderBase::get_collisiondata(int index)
@@ -46,6 +49,11 @@ CCollisionData CColliderBase::calculate_collision(CColliderBase * collider)
 	d.with_collision_point = collider->get_collision_point(this);
 	d.with_plane = collider->get_closestside(d.with_collision_point);
 	d.with_velocity = collider->get_transform().get_translation() - collider->m_prev_transform.get_translation();
+
+	bool behind = false;
+	d.m_distance = Plane_getDistanceFromPoint(d.with_plane, d.m_plane.get_center(), &behind);
+	if (!behind)
+		d.m_distance = -d.m_distance;
 
 	return d;
 }

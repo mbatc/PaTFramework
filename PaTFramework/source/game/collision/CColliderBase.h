@@ -23,6 +23,8 @@ public:
 	CVector3		m_velocity;
 	C3DPlane		m_plane;
 
+	float			m_distance;
+
 	CColliderBase*	pWith;
 	CVector3		with_velocity;
 	CVector3		with_collision_point;
@@ -73,10 +75,10 @@ protected:
 	// Return the point where the collision occured (or best estimate)
 	virtual CVector3			get_collision_point(CColliderBase* b);
 	std::vector<CCollisionData>	m_data;
-private:
 
+	virtual std::vector<CCollisionData> get_data() { return m_data; };
 	std::string m_group_name;
-
+private:
 	CTransform m_transform;
 	CTransform m_prev_transform;
 

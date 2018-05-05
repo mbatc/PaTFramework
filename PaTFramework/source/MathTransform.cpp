@@ -57,6 +57,16 @@ CVector3 Point_transform(CVector3 p, CVector3 tran, CVector3 rot, CVector3 scl)
 
 float Vector_angleBetween(CVector3 a, CVector3 b)
 {
+	a = a.unit();
+	b = b.unit();
+
+	float a_dot = a.dot(b);
+	float mag = a.Magnitude()*b.Magnitude();
+	if (mag <= 0)
+		return 0.0f;
+	float tr = a_dot / mag;
+	if (isnan(tr) || tr > 1.0f || tr < -1.0f)
+		return 0.0f;
 	return acos(a.dot(b)/(a.Magnitude()*b.Magnitude()));
 }
 
@@ -124,10 +134,20 @@ bool Line_getIntercept(CVector3 & i, CLine3D l, C3DPlane p)
 	return true;
 }
 
-float Plane_getDistanceFromPoint(C3DPlane plane, CVector3 point)
+float Plane_getDistanceFromPoint(C3DPlane plane, CVector3 point, bool* behind_plane)
 {
-	point = Plane_projectPoint(plane, point) - point;
-	return point.Magnitude();
+	CVector3 projected = Plane_projectPoint(plane, point);
+
+	if (behind_plane)
+	{
+		//Check which direction the point is in relative to the normal
+		float angle = Vector_angleBetween((projected - point), 
+			plane.get_normal());
+		*behind_plane = ((angle < M_PI_2 && angle > -M_PI_2) ||
+			(angle > M_PI_2 * 3 && angle < M_PI_2 * 5));
+	}
+
+	return (projected - point).Magnitude();
 }
 
 float Plane_getDistanceFromPoint(C3DPlane plane, CVector3 point, CVector3 min, CVector3 max, float min_padding, float max_padding)

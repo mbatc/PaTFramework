@@ -22,6 +22,28 @@ void CColliderAABB::set_bounds(CVector3 min, CVector3 max)
 	m_max = max;
 
 	update_sides();
+	update_sides_trans();
+}
+
+C3DPlane CColliderAABB::get_closestside(C3DPlane to)
+{
+	float dist = FLT_MAX;
+	int side_index = -1;
+	for (int i = 0; i < sizeof(sides_translated) / sizeof(C3DPlane); i++)
+	{
+		CVector3 center = sides_translated[i].get_center();
+		CVector3 projection = Plane_projectPoint(to, center);
+		float t = (projection - center).Magnitude();
+		if (t < dist)
+		{
+			dist = t;
+			side_index = i;
+		}
+	}
+
+	if (side_index < 0)
+		return C3DPlane();
+	return sides_translated[side_index];
 }
 
 C3DPlane CColliderAABB::get_closestside(CVector3 to)
@@ -29,10 +51,10 @@ C3DPlane CColliderAABB::get_closestside(CVector3 to)
 	CLine3D l(to,get_transform().get_translation());
 	int index = -1;
 	float dist = FLT_MAX;
-	for(int i = 0; i < sizeof(sides) / sizeof(C3DPlane); i++)
+	for(int i = 0; i < sizeof(sides_translated) / sizeof(C3DPlane); i++)
 	{
 		CVector3 col_point;
-		if (!Line_getIntercept(col_point, l, sides[i]))
+		if (!Line_getIntercept(col_point, l, sides_translated[i]))
 			continue;
 
 		float temp = (col_point - to).Magnitude();
@@ -47,7 +69,7 @@ C3DPlane CColliderAABB::get_closestside(CVector3 to)
 	if (index < 0)
 		return C3DPlane();
 
-	return sides[index];
+	return sides_translated[index];
 }
 
 CVector3 CColliderAABB::get_collision_point(CColliderBase* base)
@@ -155,10 +177,10 @@ CVector3 CColliderAABB::get_collision_point(CColliderBase* base)
 	CLine3D l(base->get_transform().get_translation(), get_transform().get_translation());
 	CVector3 collision_point;
 	float dist = FLT_MAX;
-	for (int i = 0; i < sizeof(sides) / sizeof(C3DPlane); i++)
+	for (int i = 0; i < sizeof(sides_translated) / sizeof(C3DPlane); i++)
 	{
 		CVector3 temp_col_point;
-		if (!Line_getIntercept(temp_col_point, l, sides[i]))
+		if (!Line_getIntercept(temp_col_point, l, sides_translated[i]))
 			continue;
 
 		float temp = (temp_col_point - point).Magnitude();
@@ -188,17 +210,17 @@ void CColliderAABB::update_sides()
 	//--------------------------------------------------------
 
 	//TOP PLANE n(0,1,0)
-	sides[0].set_point(CVector3(m_max.x, m_max.y, m_max.z), 0);
-	sides[0].set_point(CVector3(m_max.x, m_max.y, m_min.z), 1);
-	sides[0].set_point(CVector3(m_min.x, m_max.y, m_min.z), 2);
-	sides[0].set_point(CVector3(m_min.x, m_max.y, m_max.z), 3);
+	sides[0].set_point(CVector3(m_max.x, m_max.y, m_max.z), 3);
+	sides[0].set_point(CVector3(m_max.x, m_max.y, m_min.z), 2);
+	sides[0].set_point(CVector3(m_min.x, m_max.y, m_min.z), 1);
+	sides[0].set_point(CVector3(m_min.x, m_max.y, m_max.z), 0);
 	sides[0].update_plane();
 
 	//BOTTOM PLANE n(0,-1,0)
-	sides[1].set_point(CVector3(m_max.x, m_min.y, m_max.z), 3);
-	sides[1].set_point(CVector3(m_max.x, m_min.y, m_min.z), 2);
-	sides[1].set_point(CVector3(m_min.x, m_min.y, m_min.z), 1);
-	sides[1].set_point(CVector3(m_min.x, m_min.y, m_max.z), 0);
+	sides[1].set_point(CVector3(m_max.x, m_min.y, m_max.z), 0);
+	sides[1].set_point(CVector3(m_max.x, m_min.y, m_min.z), 1);
+	sides[1].set_point(CVector3(m_min.x, m_min.y, m_min.z), 2);
+	sides[1].set_point(CVector3(m_min.x, m_min.y, m_max.z), 3);
 	sides[1].update_plane();
 
 	//RIGHT PLANE n(1,0,0)
@@ -236,17 +258,17 @@ void CColliderAABB::update_sides_trans()
 	CVector3 min = get_boundmin();
 
 	//TOP PLANE n(0,1,0)
-	sides_translated[0].set_point(CVector3(max.x, max.y, max.z), 0);
-	sides_translated[0].set_point(CVector3(max.x, max.y, min.z), 1);
-	sides_translated[0].set_point(CVector3(min.x, max.y, min.z), 2);
-	sides_translated[0].set_point(CVector3(min.x, max.y, max.z), 3);
+	sides_translated[0].set_point(CVector3(max.x, max.y, max.z), 3);
+	sides_translated[0].set_point(CVector3(max.x, max.y, min.z), 2);
+	sides_translated[0].set_point(CVector3(min.x, max.y, min.z), 1);
+	sides_translated[0].set_point(CVector3(min.x, max.y, max.z), 0);
 	sides_translated[0].update_plane();
 
 	//BOTTOM PLANE n(0,-1,0)
-	sides_translated[1].set_point(CVector3(max.x, min.y, max.z), 3);
-	sides_translated[1].set_point(CVector3(max.x, min.y, min.z), 2);
-	sides_translated[1].set_point(CVector3(min.x, min.y, min.z), 1);
-	sides_translated[1].set_point(CVector3(min.x, min.y, max.z), 0);
+	sides_translated[1].set_point(CVector3(max.x, min.y, max.z), 0);
+	sides_translated[1].set_point(CVector3(max.x, min.y, min.z), 1);
+	sides_translated[1].set_point(CVector3(min.x, min.y, min.z), 2);
+	sides_translated[1].set_point(CVector3(min.x, min.y, max.z), 3);
 	sides_translated[1].update_plane();
 
 	//RIGHT PLANE n(1,0,0)

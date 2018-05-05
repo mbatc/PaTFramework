@@ -4,8 +4,11 @@
 
 #include "../../C3DPlane.h"
 
+class CColliderMesh;
+
 derive_ColliderType(CColliderTriangle)
 {
+	friend CColliderMesh;
 public:
 	CColliderTriangle() : CColliderBase_inherit() {}
 	~CColliderTriangle() {}

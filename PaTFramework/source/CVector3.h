@@ -25,6 +25,11 @@ public:
 		return x*v.x + y*v.y + z*v.z;
 	}
 
+	CVector3 unit() {
+		float m = Magnitude();
+		return CVector3(x/m,y/m,z/m);
+	}
+
 	CVector3 operator +  (CVector3 in)
 	{
 		CVector3 out;

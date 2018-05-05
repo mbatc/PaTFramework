@@ -554,23 +554,25 @@ unsigned int CD3DGraphics::InitDisplay()
 	if (FAILED(CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pFactory)))return ERROR_DX_NOT_INITIALIZED;
 	if (FAILED(pFactory->EnumAdapters(0, &pAdapter))) return ERROR_DX_NOT_INITIALIZED;
 	if (FAILED(pAdapter->EnumOutputs(0, &pOutput))) return ERROR_DX_NOT_INITIALIZED;
-	if (FAILED(pOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &nAdapterModes, NULL))) return ERROR_DX_NOT_INITIALIZED;
 
-	pAdapterMode = new DXGI_MODE_DESC[nAdapterModes];
-	if (!pAdapterMode) return ERROR_DX_NOT_INITIALIZED;
-
-	if (FAILED(pOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &nAdapterModes, pAdapterMode))) return ERROR_DX_NOT_INITIALIZED;
-
-	if (m_vsync)
+	if (!FAILED(pOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &nAdapterModes, NULL)))
 	{
-		for (unsigned int i = 0; i < nAdapterModes; i++)
+		pAdapterMode = new DXGI_MODE_DESC[nAdapterModes];
+		if (!pAdapterMode) return ERROR_DX_NOT_INITIALIZED;
+		if (!FAILED(pOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &nAdapterModes, pAdapterMode)))
 		{
-			if (pAdapterMode[i].Width == GetSystemMetrics(SM_CXSCREEN) &&
-				pAdapterMode[i].Height == GetSystemMetrics(SM_CYSCREEN))
+			if (m_vsync)
 			{
-				m_refreshRate[0] = pAdapterMode[i].RefreshRate.Numerator;
-				m_refreshRate[1] = pAdapterMode[i].RefreshRate.Denominator;
-				break;
+				for (unsigned int i = 0; i < nAdapterModes; i++)
+				{
+					if (pAdapterMode[i].Width == GetSystemMetrics(SM_CXSCREEN) &&
+						pAdapterMode[i].Height == GetSystemMetrics(SM_CYSCREEN))
+					{
+						m_refreshRate[0] = pAdapterMode[i].RefreshRate.Numerator;
+						m_refreshRate[1] = pAdapterMode[i].RefreshRate.Denominator;
+						break;
+					}
+				}
 			}
 		}
 	}

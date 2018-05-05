@@ -6,6 +6,7 @@ from fnmatch import fnmatch
 
 root = 'PaTFramework\\source\\'
 root_1 = 'Debug\\'
+root_2 = 'Release\\'
 
 header_list = []
 lib_list = []
@@ -19,9 +20,9 @@ def do_copy(src, dst, r):
     if not os.path.exists(path):
         print("making directory" + path)
         os.makedirs(path)
-    
+
     copyfile(r + src, dst + src)
-    
+
 
 for path, subdirs, files in os.walk(root):
     for name in files:
@@ -36,8 +37,16 @@ for path, subdirs, files in os.walk(root_1):
     for name in files:
         if(fnmatch(name, "*.lib")):
             lib_list = lib_list + [os.path.join(path, name)]
-            
+
 for i in range(len(lib_list)):
-    do_copy(lib_list[i], "lib\\", root_1)
+    do_copy(lib_list[i], "lib\\Debug\\", root_1)
 
+lib_list = []
 
+for path, subdirs, files in os.walk(root_2):
+    for name in files:
+        if(fnmatch(name, "*.lib")):
+            lib_list = lib_list + [os.path.join(path, name)]
+
+for i in range(len(lib_list)):
+    do_copy(lib_list[i], "lib\\Release\\", root_2)

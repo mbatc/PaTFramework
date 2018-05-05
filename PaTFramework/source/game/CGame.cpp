@@ -34,9 +34,9 @@ void CGame::do_update(float deltaTime)
 {
 	//Update global delta time variable
 	CGame::dTime = deltaTime;
+
 	//Do Collision detection
 	CCollisionEngine::get_instance()->update();
-
 	//Update all objects
 	if (m_pScene)
 	{

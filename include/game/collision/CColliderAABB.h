@@ -14,7 +14,8 @@ public:
 	void set_bounds(CVector3 min, float width, float height, float depth);
 	void set_bounds(CVector3 min, CVector3 max);
 
-	C3DPlane		get_closestside(CVector3 to) override;
+	C3DPlane		get_closestside(CVector3 to) override; 
+	C3DPlane		get_closestside(C3DPlane to);
 
 	CVector3 get_boundmin() { return m_min+get_transform().get_translation(); }
 	CVector3 get_boundmax() { return m_max+get_transform().get_translation(); }

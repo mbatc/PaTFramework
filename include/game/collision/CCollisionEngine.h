@@ -116,8 +116,15 @@ private:
 	void destroy_collider(CColliderBase* col, ColliderGroup group);
 	void destroy_collider(int index, ColliderGroup group);
 
-	unsigned int	check_collision(CColliderBase* col, CColliderBase* col2);
+	unsigned int do_collision(CColliderBase* col, CColliderBase* col2);
+	unsigned int do_collision_mesh(CColliderMesh* col, CColliderBase* col2, std::vector<int> face_index = std::vector<int>(0));
+	unsigned int do_collision_mesh(CColliderMesh* col, CColliderMesh* col2, std::vector<int> face_index = std::vector<int>(0), std::vector<int> face_index2 = std::vector<int>(0));
+
+	bool			check_collision(CColliderBase* col, CColliderBase* col2);
 	void			add_collision_data(CColliderBase* col, CColliderBase* col2);
+
+	unsigned int	do_mesh_collision(CColliderMesh* mesh, CColliderBase* col);
+	unsigned int	do_mesh_collision(CColliderMesh* mesh, CColliderMesh* mesh2);
 
 	unsigned int register_collider(CColliderBase* collider, std::string name);
 	unsigned int unregister_collider(int id, ColliderGroup g);

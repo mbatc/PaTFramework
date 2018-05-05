@@ -54,6 +54,12 @@ public:
 	CVector3	get_point(int index) { if (!valid_index(index))return CVector3(); return m_point[index]; }
 	CVector3	get_point(unsigned int calculated_point, CVector3 known_points);
 	
+	CVector3	get_center() { 
+		CVector3 ret; 
+		for (int i = 0; i < nPointsSet(); i++) ret += get_point(i); 
+		return ret / nPointsSet(); 
+	}
+
 	//returns vector containing coefficients of the planes scalar equation
 	CVector4	get_scalar() { return m_scalar_values; }
 
